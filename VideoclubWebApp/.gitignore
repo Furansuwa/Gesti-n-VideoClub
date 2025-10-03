@@ -1,0 +1,30 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+
+# Packages
+*.nupkg
+*.snupkg
+packages/
+*.dll
+*.exe
+
+# Publish
+publish/
+out/
+
+# Configuration
+appsettings.Development.json
+
+# Others
+*.dbmdl
+*.bak
+*.mdf
+*.ldf

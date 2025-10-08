@@ -58,6 +58,10 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="BDGVideoClub.sql" />
+    <None Include="InsertarDatos.sql" />
+    <None Include="VerificacionDeDatos.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Main.PreDeployment1.sql" />
   </ItemGroup>
 </Project>

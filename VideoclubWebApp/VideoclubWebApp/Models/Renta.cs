@@ -1,7 +1,8 @@
 ﻿namespace VideoClubWebApp.Models
 {
-    public class Renta
+    public class Rentas
     {
+        public int Id { get; set; }
         public int NoRenta { get; set; }
         public int EmpleadoId { get; set; }
         public int ClienteId { get; set; }

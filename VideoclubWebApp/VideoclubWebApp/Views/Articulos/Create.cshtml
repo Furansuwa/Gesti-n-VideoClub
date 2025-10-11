@@ -1,0 +1,67 @@
+﻿@model VideoClubWebApp.Models.Articulo
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<h1>Crear</h1>
+
+<h4>Artículo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoArticuloId" class="control-label"></label>
+                <select asp-for="TipoArticuloId" class="form-control" asp-items="ViewBag.TipoArticuloId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdiomaId" class="control-label"></label>
+                <select asp-for="IdiomaId" class="form-control" asp-items="ViewBag.IdiomaId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GeneroId" class="control-label"></label>
+                <select asp-for="GeneroId" class="form-control" asp-items="ViewBag.GeneroId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentaPorDia" class="control-label"></label>
+                <input asp-for="RentaPorDia" class="form-control" />
+                <span asp-validation-for="RentaPorDia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasRenta" class="control-label"></label>
+                <input asp-for="DiasRenta" class="form-control" />
+                <span asp-validation-for="DiasRenta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MontoEntregaTardia" class="control-label"></label>
+                <input asp-for="MontoEntregaTardia" class="form-control" />
+                <span asp-validation-for="MontoEntregaTardia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver a la Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

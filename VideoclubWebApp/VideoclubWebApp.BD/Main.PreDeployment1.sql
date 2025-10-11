@@ -1,3 +1,15 @@
+ï»¿/*
+ Pre-Deployment Script Template							
+--------------------------------------------------------------------------------------
+ This file contains SQL statements that will be executed before the build script.	
+ Use SQLCMD syntax to include a file in the pre-deployment script.			
+ Example:      :r .\myfile.sql								
+ Use SQLCMD syntax to reference a variable in the pre-deployment script.		
+ Example:      :setvar TableName MyTable							
+               SELECT * FROM [$(TableName)]					
+--------------------------------------------------------------------------------------
+*/
+
 -- Crear la base de datos
 CREATE DATABASE VideoClubDB;
 GO
@@ -5,14 +17,14 @@ GO
 USE VideoClubDB;
 GO
 
--- Tabla: Tipos de Artículos
+-- Tabla: Tipos de ArtÃ­culos
 CREATE TABLE TiposArticulos (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Descripcion VARCHAR(100) NOT NULL,
     Estado VARCHAR(20) NOT NULL
 );
 
--- Tabla: Géneros
+-- Tabla: GÃ©neros
 CREATE TABLE Generos (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Descripcion VARCHAR(100) NOT NULL,
@@ -26,7 +38,7 @@ CREATE TABLE Idiomas (
     Estado VARCHAR(20) NOT NULL
 );
 
--- Tabla: Artículos
+-- Tabla: ArtÃ­culos
 CREATE TABLE Articulos (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Titulo VARCHAR(200) NOT NULL,
@@ -49,7 +61,7 @@ CREATE TABLE Elenco (
     Estado VARCHAR(20) NOT NULL
 );
 
--- Tabla: Relación Elenco - Artículo
+-- Tabla: RelaciÃ³n Elenco - ArtÃ­culo
 CREATE TABLE ElencoArticulo (
     ArticuloId INT NOT NULL,
     ElencoId INT NOT NULL,

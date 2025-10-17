@@ -28,3 +28,6 @@ appsettings.Development.json
 *.bak
 *.mdf
 *.ldf
+*.jfm
+*.ppt
+*.pptx

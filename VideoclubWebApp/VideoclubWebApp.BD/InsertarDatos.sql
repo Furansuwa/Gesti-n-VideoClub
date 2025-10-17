@@ -21,3 +21,8 @@ INSERT INTO Idiomas (Descripcion, Estado) VALUES
 ('Inglés', 'Activo'),
 ('Francés', 'Activo'),
 ('Japonés', 'Activo');
+
+-- Cambio de empleados para
+-- poder asignar roles, etc.
+ALTER TABLE Empleados
+ADD UserId NVARCHAR(450) NULL;

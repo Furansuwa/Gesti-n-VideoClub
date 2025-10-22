@@ -1,0 +1,74 @@
+﻿@model VideoclubWebApp.Controllers.QueryResultViewModel
+@{
+    ViewData["Title"] = "Consulta a Base de Datos";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Escriba su consulta SQL a continuación. Solo se permiten consultas de tipo SELECT.</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="query" class="control-label">Consulta SQL</label>
+                <textarea id="query" name="query" class="form-control" rows="8">@(Model?.Query ?? "SELECT * FROM Articulos")</textarea>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Ejecutar Consulta" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<h3>Resultados</h3>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @ViewData["ErrorMessage"]
+    </div>
+}
+
+@if (Model != null && Model.ColumnHeaders.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    @foreach (var header in Model.ColumnHeaders)
+                    {
+                        <th>@header</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Rows.Any())
+                {
+                    @foreach (var row in Model.Rows)
+                    {
+                        <tr>
+                            @foreach (var cell in row)
+                            {
+                                <td>@cell</td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="@Model.ColumnHeaders.Count" class="text-center">No se encontraron resultados.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if (Model != null)
+{
+    <p>La consulta se ejecutó correctamente pero no arrojó resultados.</p>
+}

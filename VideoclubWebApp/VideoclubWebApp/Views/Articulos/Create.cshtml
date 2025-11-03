@@ -1,4 +1,5 @@
-﻿@model VideoClubWebApp.Models.Articulo
+﻿@using VideoclubWebApp.Models.Articulos
+@model ArticuloElencoViewModel
 
 @{
     ViewData["Title"] = "Crear";
@@ -13,41 +14,67 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
+                <label asp-for="Articulo.Titulo" class="control-label"></label>
+                <input asp-for="Articulo.Titulo" class="form-control" />
+                <span asp-validation-for="Articulo.Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TipoArticuloId" class="control-label"></label>
-                <select asp-for="TipoArticuloId" class="form-control" asp-items="ViewBag.TipoArticuloId"></select>
+                <label asp-for="Articulo.TipoArticuloId" class="control-label"></label>
+                <select asp-for="Articulo.TipoArticuloId" class="form-control" asp-items="ViewBag.TipoArticuloId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="IdiomaId" class="control-label"></label>
-                <select asp-for="IdiomaId" class="form-control" asp-items="ViewBag.IdiomaId"></select>
+                <label asp-for="Articulo.IdiomaId" class="control-label"></label>
+                <select asp-for="Articulo.IdiomaId" class="form-control" asp-items="ViewBag.IdiomaId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="GeneroId" class="control-label"></label>
-                <select asp-for="GeneroId" class="form-control" asp-items="ViewBag.GeneroId"></select>
+                <label asp-for="Articulo.GeneroId" class="control-label"></label>
+                <select asp-for="Articulo.GeneroId" class="form-control" asp-items="ViewBag.GeneroId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="RentaPorDia" class="control-label"></label>
-                <input asp-for="RentaPorDia" class="form-control" />
-                <span asp-validation-for="RentaPorDia" class="text-danger"></span>
+                <label asp-for="Articulo.RentaPorDia" class="control-label"></label>
+                <input asp-for="Articulo.RentaPorDia" class="form-control" />
+                <span asp-validation-for="Articulo.RentaPorDia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiasRenta" class="control-label"></label>
-                <input asp-for="DiasRenta" class="form-control" />
-                <span asp-validation-for="DiasRenta" class="text-danger"></span>
+                <label asp-for="Articulo.DiasRenta" class="control-label"></label>
+                <input asp-for="Articulo.DiasRenta" class="form-control" />
+                <span asp-validation-for="Articulo.DiasRenta" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MontoEntregaTardia" class="control-label"></label>
-                <input asp-for="MontoEntregaTardia" class="form-control" />
-                <span asp-validation-for="MontoEntregaTardia" class="text-danger"></span>
+                <label asp-for="Articulo.MontoEntregaTardia" class="control-label"></label>
+                <input asp-for="Articulo.MontoEntregaTardia" class="form-control" />
+                <span asp-validation-for="Articulo.MontoEntregaTardia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
+                <label asp-for="Articulo.Estado" class="control-label"></label>
+                <input asp-for="Articulo.Estado" class="form-control" />
+                <span asp-validation-for="Articulo.Estado" class="text-danger"></span>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h4>Elenco</h4>
+                </div>
+                <div class="card-body">
+                    @for (var i = 0; i < Model.ElencosDisponibles.Count; i++)
+                    {
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-md-3">
+                                <input asp-for="ElencosDisponibles[i].Asignado" type="checkbox" class="form-check-input" />
+                                <label asp-for="ElencosDisponibles[i].Asignado" class="form-check-label">
+                                    @Model.ElencosDisponibles[i].Nombre
+                                </label>
+
+                                <input asp-for="ElencosDisponibles[i].ElencoId" type="hidden" />
+                                <input asp-for="ElencosDisponibles[i].Nombre" type="hidden" />
+                            </div>
+                            <div class="col-md-9">
+                                <label asp-for="ElencosDisponibles[i].Rol" class="control-label">Rol</label>
+                                <input asp-for="ElencosDisponibles[i].Rol" class="form-control" />
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

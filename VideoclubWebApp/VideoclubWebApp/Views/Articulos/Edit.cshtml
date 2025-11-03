@@ -1,0 +1,127 @@
+﻿@using VideoclubWebApp.Models.Articulos
+@model ArticuloElencoViewModel
+
+@{
+    ViewData["Title"] = "Editar Artículo";
+}
+
+<h1>Editar</h1>
+
+<h4>Artículo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Articulo.Id" />
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h4>Datos del Artículo</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Articulo.Titulo" class="control-label"></label>
+                                <input asp-for="Articulo.Titulo" class="form-control" />
+                                <span asp-validation-for="Articulo.Titulo" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Articulo.TipoArticuloId" class="control-label">Tipo de Artículo</label>
+                                <select asp-for="Articulo.TipoArticuloId" class="form-control" asp-items="ViewBag.TipoArticuloId">
+                                    <option value="">-- Seleccionar --</option>
+                                </select>
+                                <span asp-validation-for="Articulo.TipoArticuloId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Articulo.GeneroId" class="control-label">Género</label>
+                                <select asp-for="Articulo.GeneroId" class="form-control" asp-items="ViewBag.GeneroId">
+                                    <option value="">-- Seleccionar --</option>
+                                </select>
+                                <span asp-validation-for="Articulo.GeneroId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Articulo.IdiomaId" class="control-label">Idioma</label>
+                                <select asp-for="Articulo.IdiomaId" class="form-control" asp-items="ViewBag.IdiomaId">
+                                    <option value="">-- Seleccionar --</option>
+                                </select>
+                                <span asp-validation-for="Articulo.IdiomaId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Articulo.RentaPorDia" class="control-label">Renta por Día</label>
+                                <input asp-for="Articulo.RentaPorDia" class="form-control" />
+                                <span asp-validation-for="Articulo.RentaPorDia" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Articulo.DiasRenta" class="control-label">Días de Renta</label>
+                                <input asp-for="Articulo.DiasRenta" class="form-control" />
+                                <span asp-validation-for="Articulo.DiasRenta" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Articulo.MontoEntregaTardia" class="control-label">Monto Entrega Tardía</label>
+                                <input asp-for="Articulo.MontoEntregaTardia" class="form-control" />
+                                <span asp-validation-for="Articulo.MontoEntregaTardia" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Articulo.Estado" /> @Html.DisplayNameFor(model => model.Articulo.Estado)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h4>Elenco</h4>
+                </div>
+                <div class="card-body">
+                    @for (var i = 0; i < Model.ElencosDisponibles.Count; i++)
+                    {
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-md-3">
+                                <input asp-for="ElencosDisponibles[i].Asignado" type="checkbox" class="form-check-input" />
+                                <label asp-for="ElencosDisponibles[i].Asignado" class="form-check-label">
+                                    @Model.ElencosDisponibles[i].Nombre
+                                </label>
+
+                                <input asp-for="ElencosDisponibles[i].ElencoId" type="hidden" />
+                                <input asp-for="ElencosDisponibles[i].Nombre" type="hidden" />
+                            </div>
+                            <div class="col-md-9">
+                                <label asp-for="ElencosDisponibles[i].Rol" class="control-label">Rol</label>
+                                <input asp-for="ElencosDisponibles[i].Rol" class="form-control" />
+                            </div>
+                        </div>
+                        if (i < Model.ElencosDisponibles.Count - 1)
+                        {
+                            <hr />
+                        }
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

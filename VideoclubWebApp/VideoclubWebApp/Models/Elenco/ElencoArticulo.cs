@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using VideoClubWebApp.Models;
+using VideoclubWebApp.Models.Articulos;
 
-namespace VideoclubWebApp.Models
+namespace VideoclubWebApp.Models.Elenco
 {
     public class ElencoArticulo
     {

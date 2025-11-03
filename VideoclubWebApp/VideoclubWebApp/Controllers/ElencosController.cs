@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VideoClubWebApp.Data;
-using VideoclubWebApp.Models;
+using VideoclubWebApp.Models.Elenco;
 
 namespace VideoclubWebApp.Controllers
 {

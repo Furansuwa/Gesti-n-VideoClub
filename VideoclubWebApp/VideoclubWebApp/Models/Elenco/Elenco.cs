@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace VideoclubWebApp.Models
+namespace VideoclubWebApp.Models.Elenco
 {
     public class Elenco
     {

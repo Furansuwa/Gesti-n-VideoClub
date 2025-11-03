@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using VideoclubWebApp.Models;
+using VideoclubWebApp.Models.Articulos;
+using VideoclubWebApp.Models.Elenco;
 using VideoClubWebApp.Models;
 
 namespace VideoClubWebApp.Data

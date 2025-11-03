@@ -1,6 +1,6 @@
-﻿using VideoclubWebApp.Models;
+﻿using VideoclubWebApp.Models.Elenco;
 
-namespace VideoClubWebApp.Models
+namespace VideoclubWebApp.Models.Articulos
 {
     public class Articulo
     {

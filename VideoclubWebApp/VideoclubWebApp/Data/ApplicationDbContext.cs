@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VideoclubWebApp.Models;
 using VideoClubWebApp.Models;
 
 namespace VideoClubWebApp.Data
@@ -20,5 +21,6 @@ namespace VideoClubWebApp.Data
         public DbSet<TipoArticulo> TiposArticulos { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Idioma> Idiomas { get; set; }
+        public DbSet<Elenco> Elencos { get; set; }
     }
 }

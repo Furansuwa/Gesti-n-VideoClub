@@ -13,5 +13,8 @@ namespace VideoclubWebApp.Models
         public string Nombre { get; set; }
 
         public bool Estado { get; set; }
+
+        // Colección para la relación muchos a muchos
+        public virtual ICollection<ElencoArticulo> ElencoArticulos { get; set; }
     }
 }

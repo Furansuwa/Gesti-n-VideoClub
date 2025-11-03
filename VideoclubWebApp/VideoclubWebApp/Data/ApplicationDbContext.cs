@@ -22,5 +22,16 @@ namespace VideoClubWebApp.Data
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Idioma> Idiomas { get; set; }
         public DbSet<Elenco> Elencos { get; set; }
+
+        public DbSet<ElencoArticulo> ElencoArticulos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ElencoArticulo>().HasKey(
+                ea => new { ea.ArticuloId, ea.ElencoId }
+            );
+        }
     }
 }

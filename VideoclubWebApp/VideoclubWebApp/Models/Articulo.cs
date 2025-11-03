@@ -1,4 +1,6 @@
-﻿namespace VideoClubWebApp.Models
+﻿using VideoclubWebApp.Models;
+
+namespace VideoClubWebApp.Models
 {
     public class Articulo
     {
@@ -11,5 +13,8 @@
         public int DiasRenta { get; set; }
         public decimal MontoEntregaTardia { get; set; }
         public string Estado { get; set; }
+
+        // Colección para la relación muchos a muchos
+        public virtual ICollection<ElencoArticulo> ElencoArticulos { get; set; }
     }
 }

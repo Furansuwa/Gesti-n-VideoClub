@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Reportes";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Selecciona el tipo de reporte que deseas generar en formato PDF.</p>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+                <h5><i class="bi bi-film"></i> Reportes de Artículos</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Genera un reporte completo de todos los artículos disponibles en el videoclub.</p>
+                <a asp-action="ArticulosPdf" class="btn btn-success" target="_blank">
+                    <i class="bi bi-file-pdf"></i> Generar PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="bi bi-people"></i> Reportes de Clientes</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Genera un reporte de todos los clientes registrados en el sistema.</p>
+                <a asp-action="ClientesPdf" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-file-pdf"></i> Generar PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-dark">
+                <h5><i class="bi bi-person-badge"></i> Reportes de Empleados</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Genera un reporte de todos los empleados del videoclub.</p>
+                <a asp-action="EmpleadosPdf" class="btn btn-warning" target="_blank">
+                    <i class="bi bi-file-pdf"></i> Generar PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h5><i class="bi bi-calendar-check"></i> Reportes de Rentas</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Genera un reporte de las rentas realizadas, con opción de filtrar por fechas.</p>
+                <form asp-action="RentasPdf" method="get" target="_blank">
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Fecha Inicio</label>
+                            <input type="date" name="fechaInicio" class="form-control" />
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Fecha Fin</label>
+                            <input type="date" name="fechaFin" class="form-control" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-info mt-2">
+                        <i class="bi bi-file-pdf"></i> Generar PDF
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info mt-4" role="alert">
+    <strong>Nota:</strong> Los reportes se generarán en formato PDF y se abrirán en una nueva pestaña del navegador.
+</div>

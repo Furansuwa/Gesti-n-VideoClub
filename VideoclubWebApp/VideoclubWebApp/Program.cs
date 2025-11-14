@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VideoClubWebApp.Data;
-
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using VideoclubWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("VideoClubDB")));
@@ -15,21 +16,35 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Agrega los servicios de Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
-    
+    options.SignIn.RequireConfirmedAccount = false; // CAMBIADO: No requiere confirmación de email
+
     // Opciones de bloqueo
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 
-    // Opciones de password
-    options.Password.RequireDigit = true; 
+    // Opciones de password más flexibles para desarrollo
+    options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 10;
+    options.Password.RequireNonAlphanumeric = false; // Cambiado a false
+    options.Password.RequiredLength = 6; // Reducido a 6
     options.Password.RequiredUniqueChars = 1;
-}).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Configurar opciones de autenticación
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
+// Registrar el servicio de PDF
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 var app = builder.Build();
 
@@ -37,7 +52,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -68,6 +82,7 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+// Inicializar roles y usuarios
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

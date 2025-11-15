@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoclubWebApp.Models.Elenco
 {
+    [Table("Elenco")]
     public class Elenco
     {
         [Key]

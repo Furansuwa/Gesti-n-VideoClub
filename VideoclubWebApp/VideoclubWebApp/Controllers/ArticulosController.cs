@@ -35,11 +35,19 @@ namespace VideoclubWebApp.Controllers
             }
 
             var articulo = await _context.Articulos
+                .Include(a => a.ElencoArticulos)
+                    .ThenInclude(ea => ea.Elenco)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (articulo == null)
             {
                 return NotFound();
             }
+
+            // Cargar información adicional
+            ViewBag.TipoArticulo = await _context.TiposArticulos.FindAsync(articulo.TipoArticuloId);
+            ViewBag.Genero = await _context.Generos.FindAsync(articulo.GeneroId);
+            ViewBag.Idioma = await _context.Idiomas.FindAsync(articulo.IdiomaId);
 
             return View(articulo);
         }
@@ -216,11 +224,19 @@ namespace VideoclubWebApp.Controllers
             }
 
             var articulo = await _context.Articulos
+                .Include(a => a.ElencoArticulos)
+                    .ThenInclude(ea => ea.Elenco)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (articulo == null)
             {
                 return NotFound();
             }
+
+            // Cargar información adicional
+            ViewBag.TipoArticulo = await _context.TiposArticulos.FindAsync(articulo.TipoArticuloId);
+            ViewBag.Genero = await _context.Generos.FindAsync(articulo.GeneroId);
+            ViewBag.Idioma = await _context.Idiomas.FindAsync(articulo.IdiomaId);
 
             return View(articulo);
         }
@@ -230,9 +246,20 @@ namespace VideoclubWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var articulo = await _context.Articulos.FindAsync(id);
-            _context.Articulos.Remove(articulo);
-            await _context.SaveChangesAsync();
+            var articulo = await _context.Articulos
+                .Include(a => a.ElencoArticulos)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (articulo != null)
+            {
+                // Primero eliminar las relaciones con elenco
+                _context.ElencoArticulos.RemoveRange(articulo.ElencoArticulos);
+
+                // Luego eliminar el artículo
+                _context.Articulos.Remove(articulo);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

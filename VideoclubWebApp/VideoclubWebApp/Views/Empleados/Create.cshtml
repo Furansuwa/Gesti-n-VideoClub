@@ -1,58 +1,73 @@
 ﻿@model VideoClubWebApp.Models.Empleado
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Empleado";
 }
 
-<h1>Create</h1>
-
-<h4>Empleado</h4>
+<h1>Crear Empleado</h1>
+<h4>Nuevo Empleado</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" />
+                <input asp-for="Cedula" class="form-control" maxlength="11" />
                 <span asp-validation-for="Cedula" class="text-danger"></span>
+                <small class="form-text text-muted">Máximo 11 caracteres</small>
             </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="TandaLabor" class="control-label"></label>
-                <input asp-for="TandaLabor" class="form-control" />
+                <select asp-for="TandaLabor" class="form-control">
+                    <option value="">-- Seleccione --</option>
+                    <option value="Matutina">Matutina</option>
+                    <option value="Vespertina">Vespertina</option>
+                    <option value="Nocturna">Nocturna</option>
+                </select>
                 <span asp-validation-for="TandaLabor" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="PorcientoComision" class="control-label"></label>
-                <input asp-for="PorcientoComision" class="form-control" />
+                <input asp-for="PorcientoComision" class="form-control" type="number" step="0.01" min="0" max="100" />
                 <span asp-validation-for="PorcientoComision" class="text-danger"></span>
+                <small class="form-text text-muted">Ejemplo: 10.5 para 10.5%</small>
             </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="FechaIngreso" class="control-label"></label>
-                <input asp-for="FechaIngreso" class="form-control" />
+                <input asp-for="FechaIngreso" class="form-control" type="date" />
                 <span asp-validation-for="FechaIngreso" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Estado" /> @Html.DisplayNameFor(model => model.Estado)
-                </label>
+
+            <div class="form-group mb-3">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,0 +1,108 @@
+﻿@model VideoClubWebApp.Models.Rentas
+
+@{
+    ViewData["Title"] = "Nueva Renta";
+}
+
+<h1>Nueva Renta</h1>
+<h4>Registrar una nueva renta</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ClienteId" class="form-label">Cliente</label>
+                            <select asp-for="ClienteId" class="form-select" asp-items="ViewBag.ClienteId">
+                                <option value="">-- Seleccione un cliente --</option>
+                            </select>
+                            <span asp-validation-for="ClienteId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ArticuloId" class="form-label">Artículo</label>
+                            <select asp-for="ArticuloId" class="form-select" asp-items="ViewBag.ArticuloId">
+                                <option value="">-- Seleccione un artículo --</option>
+                            </select>
+                            <span asp-validation-for="ArticuloId" class="text-danger"></span>
+                            <small class="form-text text-muted">Solo se muestran artículos disponibles</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="EmpleadoId" class="form-label">Empleado</label>
+                            <select asp-for="EmpleadoId" class="form-select" asp-items="ViewBag.EmpleadoId">
+                                <option value="">-- Seleccione un empleado --</option>
+                            </select>
+                            <span asp-validation-for="EmpleadoId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CantidadDias" class="form-label">Cantidad de Días</label>
+                            <input asp-for="CantidadDias" class="form-control" type="number" min="1" />
+                            <span asp-validation-for="CantidadDias" class="text-danger"></span>
+                            <small class="form-text text-muted">Si se deja en 0, se usarán los días predeterminados del artículo</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Comentario" class="form-label">Comentarios</label>
+                        <textarea asp-for="Comentario" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Comentario" class="text-danger"></span>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <strong>Nota:</strong> La fecha de renta será la fecha actual. El monto por día se calculará automáticamente según el artículo seleccionado.
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Crear Renta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-light">
+            <div class="card-header">
+                <h5>Información</h5>
+            </div>
+            <div class="card-body">
+                <h6>¿Cómo funciona?</h6>
+                <ol>
+                    <li>Selecciona el cliente que rentará el artículo</li>
+                    <li>Elige el artículo disponible</li>
+                    <li>Indica el empleado que procesa la renta</li>
+                    <li>Define la cantidad de días (opcional)</li>
+                    <li>Agrega comentarios si es necesario</li>
+                </ol>
+                <hr>
+                <p class="mb-1"><strong>El sistema calculará:</strong></p>
+                <ul class="small">
+                    <li>Número de renta único</li>
+                    <li>Fecha de renta actual</li>
+                    <li>Monto por día según el artículo</li>
+                    <li>Fecha esperada de devolución</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,81 @@
+﻿@using VideoclubWebApp.Models.Articulos
+@model VideoClubWebApp.Models.Rentas
+
+@{
+    ViewData["Title"] = "Eliminar Renta";
+    var cliente = ViewBag.Cliente as VideoClubWebApp.Models.Cliente;
+    var articulo = ViewBag.Articulo as Articulo;
+    var empleado = ViewBag.Empleado as VideoClubWebApp.Models.Empleado;
+}
+
+<h1>Eliminar Renta</h1>
+<h3 class="text-danger">¿Estás seguro de que deseas eliminar esta renta?</h3>
+<hr />
+
+<div class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+    @if (Model.Estado == "Activa")
+    {
+        <br />
+        <span>El artículo volverá a estar disponible para renta.</span>
+        }
+</div>
+
+<div class="card">  
+    <div class="card-header bg-danger text-white">
+        <h5>Información de la Renta</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">No. Renta:</dt>
+            <dd class="col-sm-9"><strong>#@Model.NoRenta</strong></dd>
+
+            <dt class="col-sm-3">Estado:</dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-@(Model.Estado == "Activa" ? "success" : "secondary")">@Model.Estado</span>
+            </dd>
+
+            <dt class="col-sm-3">Cliente:</dt>
+            <dd class="col-sm-9">@cliente?.Nombre</dd>
+
+            <dt class="col-sm-3">Artículo:</dt>
+            <dd class="col-sm-9">@articulo?.Titulo</dd>
+
+            <dt class="col-sm-3">Empleado:</dt>
+            <dd class="col-sm-9">@empleado?.Nombre</dd>
+
+            <dt class="col-sm-3">Fecha Renta:</dt>
+            <dd class="col-sm-9">@Model.FechaRenta.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Fecha Devolución:</dt>
+            <dd class="col-sm-9">
+                @if (Model.FechaDevolucion.HasValue)
+                {
+                    @Model.FechaDevolucion.Value.ToString("dd/MM/yyyy")
+                }
+                else
+                {
+                    <span class="text-muted">Pendiente</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">Total:</dt>
+            <dd class="col-sm-9">
+                <strong>$@((Model.MontoPorDia * Model.CantidadDias).ToString("N2"))</strong>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-3">
+    <input type="hidden" asp-for="NoRenta" />
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Confirmar Eliminación
+        </button>
+    </div>
+</form>

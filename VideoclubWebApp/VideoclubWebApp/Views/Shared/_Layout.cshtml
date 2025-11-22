@@ -19,38 +19,45 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- Inicio -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
+
+                        <!-- Artículos -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Articulos" asp-action="Index">Artículos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Articulos" asp-action="Index">Articulos</a>
+
+                        <!-- Administración (Dropdown) -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="administracionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Administración
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="administracionDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Generos" asp-action="Index">Géneros</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Elencos" asp-action="Index">Elenco</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Consulta" asp-action="Index">Consulta DB</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Generos" asp-action="Index">Generos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Idiomas" asp-action="Index">Idiomas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Consulta" asp-action="Index">Consulta DB</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Elencos" asp-action="Index">Elenco</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reportes" asp-action="Index">Reportes</a>
+
+                        <!-- Operaciones (Dropdown) -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="operacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Operaciones
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="operacionesDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Create">Nueva Renta</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Devolucion">Devolución</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Index">Ver Rentas</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Reportes" asp-action="Index">Reportes</a></li>
+                            </ul>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

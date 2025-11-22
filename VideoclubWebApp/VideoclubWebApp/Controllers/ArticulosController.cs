@@ -49,8 +49,8 @@ namespace VideoclubWebApp.Controllers
         {
             var viewModel = new ArticuloElencoViewModel();
 
-            // Cargar todos los elencos disponibles
-            var todosLosElencos = _context.Elencos.Where(e => e.Estado).ToList();
+            // Cargar todos los elencos disponibles (solo activos)
+            var todosLosElencos = _context.Elencos.Where(e => e.Estado == "Activo").ToList();
 
             foreach (var elenco in todosLosElencos)
             {
@@ -65,7 +65,6 @@ namespace VideoclubWebApp.Controllers
 
             ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion");
             ViewData["TipoArticuloId"] = new SelectList(_context.TiposArticulos, "Id", "Descripcion");
-            ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion");
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Descripcion");
             return View(viewModel);
         }
@@ -101,7 +100,6 @@ namespace VideoclubWebApp.Controllers
             // Si falla, recargar los dropdowns y devolver el viewModel
             ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", viewModel.Articulo.IdiomaId);
             ViewData["TipoArticuloId"] = new SelectList(_context.TiposArticulos, "Id", "Descripcion", viewModel.Articulo.TipoArticuloId);
-            ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", viewModel.Articulo.IdiomaId);
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Descripcion", viewModel.Articulo.GeneroId);
             return View(viewModel);
         }
@@ -129,8 +127,8 @@ namespace VideoclubWebApp.Controllers
                 Articulo = articulo
             };
 
-            // Cargar TODOS los elencos
-            var todosLosElencos = await _context.Elencos.Where(e => e.Estado).ToListAsync();
+            // Cargar TODOS los elencos activos
+            var todosLosElencos = await _context.Elencos.Where(e => e.Estado == "Activo").ToListAsync();
 
             foreach (var elenco in todosLosElencos)
             {
@@ -148,7 +146,6 @@ namespace VideoclubWebApp.Controllers
 
             ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", articulo.IdiomaId);
             ViewData["TipoArticuloId"] = new SelectList(_context.TiposArticulos, "Id", "Descripcion", articulo.TipoArticuloId);
-            ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", articulo.IdiomaId);
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Descripcion", articulo.GeneroId);
             return View(viewModel);
         }
@@ -172,7 +169,7 @@ namespace VideoclubWebApp.Controllers
                     _context.Update(viewModel.Articulo);
 
                     // 2. Borrar elenco existente
-                    var elencoExistente = _context.ElencoArticulos.Where(ea => ea.ArticuloId == id);
+                    var elencoExistente = _context.ElencoArticulos.Where(ea => ea.ArticuloId == id).ToList();
                     _context.ElencoArticulos.RemoveRange(elencoExistente);
 
                     // 3. Añadir el nuevo elenco (solo los asignados)
@@ -206,7 +203,6 @@ namespace VideoclubWebApp.Controllers
             // Si falla, recargar los dropdowns
             ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", viewModel.Articulo.IdiomaId);
             ViewData["TipoArticuloId"] = new SelectList(_context.TiposArticulos, "Id", "Descripcion", viewModel.Articulo.TipoArticuloId);
-            ViewData["IdiomaId"] = new SelectList(_context.Idiomas, "Id", "Descripcion", viewModel.Articulo.IdiomaId);
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Descripcion", viewModel.Articulo.GeneroId);
             return View(viewModel);
         }

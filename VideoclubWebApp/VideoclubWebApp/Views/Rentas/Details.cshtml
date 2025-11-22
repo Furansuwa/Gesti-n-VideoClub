@@ -1,0 +1,100 @@
+﻿@model VideoClubWebApp.Models.Rentas
+
+@{
+    ViewData["Title"] = "Detalles de Renta";
+    var cliente = ViewBag.Cliente as VideoClubWebApp.Models.Cliente;
+    var articulo = ViewBag.Articulo as VideoclubWebApp.Models.Articulos.Articulo;
+    var empleado = ViewBag.Empleado as VideoClubWebApp.Models.Empleado;
+}
+
+<h1>Detalles de Renta</h1>
+<h4>Renta #@Model.NoRenta</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Información General</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">No. Renta:</dt>
+                    <dd class="col-sm-9"><strong>#@Model.NoRenta</strong></dd>
+
+                    <dt class="col-sm-3">Estado:</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Estado == "Activa")
+                        {
+                            <span class="badge bg-success">@Model.Estado</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@Model.Estado</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Cliente:</dt>
+                    <dd class="col-sm-9">@cliente?.Nombre (ID: @Model.ClienteId)</dd>
+
+                    <dt class="col-sm-3">Artículo:</dt>
+                    <dd class="col-sm-9">@articulo?.Titulo (ID: @Model.ArticuloId)</dd>
+
+                    <dt class="col-sm-3">Empleado:</dt>
+                    <dd class="col-sm-9">@empleado?.Nombre (ID: @Model.EmpleadoId)</dd>
+
+                    <dt class="col-sm-3">Fecha Renta:</dt>
+                    <dd class="col-sm-9">@Model.FechaRenta.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                    <dt class="col-sm-3">Fecha Devolución:</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.FechaDevolucion.HasValue)
+                        {
+                            @Model.FechaDevolucion.Value.ToString("dd/MM/yyyy HH:mm")
+                        }
+                        else
+                        {
+                            <span class="text-muted">Pendiente</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Monto por Día:</dt>
+                    <dd class="col-sm-9">$@Model.MontoPorDia.ToString("N2")</dd>
+
+                    <dt class="col-sm-3">Cantidad de Días:</dt>
+                    <dd class="col-sm-9">@Model.CantidadDias día(s)</dd>
+
+                    <dt class="col-sm-3">Total:</dt>
+                    <dd class="col-sm-9">
+                        <strong>$@((Model.MontoPorDia * Model.CantidadDias).ToString("N2"))</strong>
+                    </dd>
+
+                    @if (!string.IsNullOrEmpty(Model.Comentario))
+                    {
+                        <dt class="col-sm-3">Comentario:</dt>
+                        <dd class="col-sm-9">@Model.Comentario</dd>
+                    }
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Acciones</h5>
+            </div>
+            <div class="card-body d-grid gap-2">
+                @if (Model.Estado == "Activa")
+                {
+                    <a asp-action="ProcesarDevolucion" asp-route-id="@Model.NoRenta" class="btn btn-warning">
+                        <i class="bi bi-arrow-return-left"></i> Procesar Devolución
+                    </a>
+                }
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a la Lista
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

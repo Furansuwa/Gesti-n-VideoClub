@@ -12,9 +12,11 @@ namespace VideoclubWebApp.Models.Elenco
 
         [Required]
         [StringLength(100)]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
 
-        public bool Estado { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string Estado { get; set; } = "Activo";
 
         // Colección para la relación muchos a muchos
         public virtual ICollection<ElencoArticulo> ElencoArticulos { get; set; } = new List<ElencoArticulo>();

@@ -133,60 +133,62 @@ namespace VideoclubWebApp.Controllers
             return sb.ToString();
         }
 
+        // ReportesController.cs - Método GenerarHtmlClientes corregido
+
         private string GenerarHtmlClientes(List<VideoClubWebApp.Models.Cliente> clientes)
         {
             var sb = new StringBuilder();
             sb.Append(@"
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset='utf-8' />
-                    <title>Reporte de Clientes</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; }
-                        h1 { color: #333; text-align: center; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                        th { background-color: #2196F3; color: white; padding: 12px; text-align: left; }
-                        td { padding: 8px; border-bottom: 1px solid #ddd; }
-                        tr:hover { background-color: #f5f5f5; }
-                        .total { font-weight: bold; margin-top: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <h1>Reporte de Clientes</h1>
-                    <p>Fecha de generación: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + @"</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Cédula</th>
-                                <th>Tipo</th>
-                                <th>Límite Crédito</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>");
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='utf-8' />
+            <title>Reporte de Clientes</title>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                h1 { color: #333; text-align: center; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th { background-color: #2196F3; color: white; padding: 12px; text-align: left; }
+                td { padding: 8px; border-bottom: 1px solid #ddd; }
+                tr:hover { background-color: #f5f5f5; }
+                .total { font-weight: bold; margin-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <h1>Reporte de Clientes</h1>
+            <p>Fecha de generación: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + @"</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Tipo</th>
+                        <th>Límite Crédito</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>");
 
             foreach (var cliente in clientes)
             {
                 sb.Append($@"
-                    <tr>
-                        <td>{cliente.Id}</td>
-                        <td>{cliente.Nombre}</td>
-                        <td>{cliente.Cedula}</td>
-                        <td>{cliente.TipoPersona}</td>
-                        <td>${cliente.LimiteCredito:N2}</td>
-                        <td>{(cliente.Estado ? "Activo" : "Inactivo")}</td>
-                    </tr>");
+            <tr>
+                <td>{cliente.Id}</td>
+                <td>{cliente.Nombre}</td>
+                <td>{cliente.Cedula}</td>
+                <td>{cliente.TipoPersona}</td>
+                <td>${cliente.LimiteCredito:N2}</td>
+                <td>{cliente.Estado}</td>
+            </tr>");
             }
 
             sb.Append($@"
-                        </tbody>
-                    </table>
-                    <p class='total'>Total de clientes: {clientes.Count}</p>
-                </body>
-                </html>");
+                </tbody>
+            </table>
+            <p class='total'>Total de clientes: {clientes.Count}</p>
+        </body>
+        </html>");
 
             return sb.ToString();
         }

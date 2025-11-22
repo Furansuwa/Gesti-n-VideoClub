@@ -4,6 +4,7 @@ using VideoclubWebApp.Models.Articulos;
 
 namespace VideoclubWebApp.Models.Elenco
 {
+    [Table("ElencoArticulo")]
     public class ElencoArticulo
     {
         public int ArticuloId { get; set; }

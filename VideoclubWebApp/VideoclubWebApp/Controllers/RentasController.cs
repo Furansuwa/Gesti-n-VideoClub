@@ -71,12 +71,11 @@ namespace VideoclubWebApp.Controllers
                 if (articulo == null)
                 {
                     ModelState.AddModelError("", "Artículo no encontrado");
+                    ViewData["ClienteId"] = new SelectList(_context.Clientes.Where(c => c.Estado == "Activo"), "Id", "Nombre", renta.ClienteId);
+                    ViewData["ArticuloId"] = new SelectList(_context.Articulos.Where(a => a.Estado == "Disponible"), "Id", "Titulo", renta.ArticuloId);
+                    ViewData["EmpleadoId"] = new SelectList(_context.Empleados.Where(e => e.Estado == "Activo"), "Id", "Nombre", renta.EmpleadoId);
                     return View(renta);
                 }
-
-                // Generar número de renta único
-                var ultimaRenta = await _context.Rentas.OrderByDescending(r => r.NoRenta).FirstOrDefaultAsync();
-                renta.NoRenta = (ultimaRenta?.NoRenta ?? 0) + 1;
 
                 // Establecer valores
                 renta.FechaRenta = DateTime.Now;
@@ -125,7 +124,7 @@ namespace VideoclubWebApp.Controllers
                 return NotFound();
             }
 
-            var renta = await _context.Rentas.FindAsync(id);
+            var renta = await _context.Rentas.FirstOrDefaultAsync(r => r.NoRenta == id);
 
             if (renta == null || renta.Estado != "Activa")
             {
@@ -162,7 +161,7 @@ namespace VideoclubWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcesarDevolucionConfirmed(int id, string comentarioDevolucion)
         {
-            var renta = await _context.Rentas.FindAsync(id);
+            var renta = await _context.Rentas.FirstOrDefaultAsync(r => r.NoRenta == id);
 
             if (renta == null || renta.Estado != "Activa")
             {
@@ -224,7 +223,7 @@ namespace VideoclubWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var renta = await _context.Rentas.FindAsync(id);
+            var renta = await _context.Rentas.FirstOrDefaultAsync(r => r.NoRenta == id);
 
             if (renta != null)
             {

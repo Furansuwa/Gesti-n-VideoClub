@@ -8,10 +8,7 @@ namespace VideoClubWebApp.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; } // Clave primaria auto-incremental
-
-        [Required]
-        public int NoRenta { get; set; } // Número de renta (lo calculamos manualmente)
+        public int NoRenta { get; set; } // Clave primaria y número de renta
 
         [Required]
         public int EmpleadoId { get; set; }

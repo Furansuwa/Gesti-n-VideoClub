@@ -37,12 +37,21 @@
                             <ul class="dropdown-menu" aria-labelledby="administracionDropdown">
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Generos" asp-action="Index">Géneros</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Elencos" asp-action="Index">Elenco</a></li>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Elencos" asp-action="Index">Elenco</a></li>
+                                }
+
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Consulta" asp-action="Index">Consulta DB</a></li>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Consulta" asp-action="Index">Consulta DB</a></li>
+                                }
                             </ul>
                         </li>
 

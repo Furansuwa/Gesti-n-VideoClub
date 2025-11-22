@@ -48,11 +48,11 @@
                             <td>@Html.DisplayFor(modelItem => item.ClienteId)</td>
                             <td>@Html.DisplayFor(modelItem => item.ArticuloId)</td>
                             <td>@Html.DisplayFor(modelItem => item.EmpleadoId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.FechaRenta)</td>
+                            <td>@item.FechaRenta.ToString("dd/MM/yyyy HH:mm")</td>
                             <td>
                                 @if (item.FechaDevolucion.HasValue)
                                 {
-                                    @Html.DisplayFor(modelItem => item.FechaDevolucion)
+                                    @item.FechaDevolucion.Value.ToString("dd/MM/yyyy HH:mm")
                                 }
                                 else
                                 {

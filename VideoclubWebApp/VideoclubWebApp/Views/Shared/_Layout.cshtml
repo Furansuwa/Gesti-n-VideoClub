@@ -1,97 +1,93 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-    @{
-        var rutaActual = Context.Request.Path.Value?.ToLower();
-        bool esPaginaAuth = rutaActual != null && (rutaActual.Contains("/login") || rutaActual.Contains("/register"));
-}
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VideoclubWebApp</title>
+    <title>@ViewData["Title"] - Videoclub Pro</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VideoclubWebApp.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    @{
+
+        var ruta = Context.Request.Path.Value?.ToLower();
+        bool esPaginaAuth = ruta != null && (ruta.Contains("/login") || ruta.Contains("/register"));
+    }
+
     @if (!esPaginaAuth)
     {
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
                 <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VideoclubWebApp</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="navbar-brand vc-brand-logo" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fa-solid fa-play-circle me-2"></i>vcPropietario
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <!-- Inicio -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
                             </li>
-
-                            <!-- Artículos -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Articulos" asp-action="Index">Artículos</a>
+                                <a class="nav-link" asp-controller="Rentas" asp-action="Index">Rentas</a>
                             </li>
-
-                            <!-- Administración (Dropdown) -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Articulos" asp-action="Index">Artículos</a>
+                            </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="administracionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Administración
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="administracionDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Generos" asp-action="Index">Géneros</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
-
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Elencos" asp-action="Index">Elenco</a></li>
-                                    }
-
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Consulta" asp-action="Index">Consulta DB</a></li>
-                                    }
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Administración</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Generos" asp-action="Index">Géneros</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Elencos" asp-action="Index">Elenco</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Roles" asp-action="Index">Roles y Permisos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consulta" asp-action="Index">Consulta SQL</a></li>
                                 </ul>
-                        </li>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Reportes" asp-action="Index">Reportes</a>
+                            </li>
+                        </ul>
 
-                        <!-- Operaciones (Dropdown) -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="operacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Operaciones
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="operacionesDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Create">Nueva Renta</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Devolucion">Devolución</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Rentas" asp-action="Index">Ver Rentas</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Reportes" asp-action="Index">Reportes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+                        <div class="d-flex align-items-center gap-3">
+                            <div id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+                                <i class="fa-solid fa-moon"></i>
+                            </div>
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
     }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - VideoclubWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @if (!esPaginaAuth)
+    {
+        <footer class="border-top footer">
+            <div class="container text-center">
+                &copy; 2025 - <strong>vcPropietario</strong> - <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Volver al Inicio</a>
+            </div>
+        </footer>
+    }
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

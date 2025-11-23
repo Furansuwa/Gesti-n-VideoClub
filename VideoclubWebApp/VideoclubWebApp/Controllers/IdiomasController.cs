@@ -133,8 +133,13 @@ namespace VideoClubWebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var idioma = await _context.Idiomas.FindAsync(id);
-            _context.Idiomas.Remove(idioma);
-            await _context.SaveChangesAsync();
+            if (idioma != null)
+            {
+                // Soft Delete: Cambiar estado a Inactivo en lugar de borrar
+                idioma.Estado = "Inactivo";
+                _context.Update(idioma);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

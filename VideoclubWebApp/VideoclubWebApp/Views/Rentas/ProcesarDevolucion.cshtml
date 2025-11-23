@@ -1,10 +1,9 @@
 ﻿@model VideoClubWebApp.Models.Rentas
 
 @{
-    ViewData["Title"] = "Procesar Devolución";
+    ViewData["Title"] = "Cierre de Renta";
     var cliente = ViewBag.Cliente as VideoClubWebApp.Models.Cliente;
     var articulo = ViewBag.Articulo as VideoclubWebApp.Models.Articulos.Articulo;
-    var empleado = ViewBag.Empleado as VideoClubWebApp.Models.Empleado;
     var fechaEsperada = (DateTime)ViewBag.FechaEsperada;
     var diasRetraso = (int)ViewBag.DiasRetraso;
     var montoBase = (decimal)ViewBag.MontoBase;
@@ -12,179 +11,85 @@
     var montoTotal = (decimal)ViewBag.MontoTotal;
 }
 
-<h1>Procesar Devolución</h1>
-<h4>Renta #@Model.NoRenta</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-8">
-        <div class="card mb-3">
-            <div class="card-header bg-primary text-white">
-                <h5><i class="bi bi-info-circle"></i> Información de la Renta</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <dl class="row">
-                            <dt class="col-sm-5">No. Renta:</dt>
-                            <dd class="col-sm-7"><strong>#@Model.NoRenta</strong></dd>
-
-                            <dt class="col-sm-5">Cliente:</dt>
-                            <dd class="col-sm-7">@cliente?.Nombre</dd>
-
-                            <dt class="col-sm-5">Artículo:</dt>
-                            <dd class="col-sm-7">@articulo?.Titulo</dd>
-
-                            <dt class="col-sm-5">Empleado:</dt>
-                            <dd class="col-sm-7">@empleado?.Nombre</dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-6">
-                        <dl class="row">
-                            <dt class="col-sm-5">Fecha Renta:</dt>
-                            <dd class="col-sm-7">@Model.FechaRenta.ToString("dd/MM/yyyy")</dd>
-
-                            <dt class="col-sm-5">Fecha Esperada:</dt>
-                            <dd class="col-sm-7">
-                                @fechaEsperada.ToString("dd/MM/yyyy")
-                                @if (diasRetraso > 0)
-                                {
-                                    <br />
-                                    <span class="badge bg-danger">Retrasada</span>
-                                }
-                                else
-                                {
-                                    <br />
-                                    <span class="badge bg-success">A tiempo</span>
-                                }
-                            </dd>
-
-                            <dt class="col-sm-5">Días contratados:</dt>
-                            <dd class="col-sm-7">@Model.CantidadDias día(s)</dd>
-
-                            <dt class="col-sm-5">Días de retraso:</dt>
-                            <dd class="col-sm-7">
-                                @if (diasRetraso > 0)
-                                {
-                                    <span class="text-danger"><strong>@diasRetraso día(s)</strong></span>
-                                }
-                                else
-                                {
-                                    <span class="text-success">0 días</span>
-                                }
-                            </dd>
-                        </dl>
-                    </div>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="vc-card-panel mb-4">
+                <div class="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Cierre de Renta #@Model.NoRenta</h5>
+                    <span class="badge bg-light text-dark">@Model.FechaRenta.ToString("dd/MM/yyyy")</span>
                 </div>
 
-                @if (!string.IsNullOrEmpty(Model.Comentario))
-                {
+                <div class="card-body p-4">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <small class="vc-text-secondary d-block text-uppercase fw-bold">Cliente</small>
+                            <h5 class="mb-3">@cliente?.Nombre</h5>
+
+                            <small class="vc-text-secondary d-block text-uppercase fw-bold">Película</small>
+                            <h5 class="mb-0 text-primary">@articulo?.Titulo</h5>
+                        </div>
+                        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                            <div class="p-3 rounded @(diasRetraso > 0 ? "bg-danger bg-opacity-10 border border-danger" : "vc-bg-alt")">
+                                <small class="vc-text-secondary d-block">Fecha Límite</small>
+                                <span class="fw-bold fs-5">@fechaEsperada.ToString("dd/MM/yyyy")</span>
+                                @if (diasRetraso > 0)
+                                {
+                                    <div class="text-danger mt-1 fw-bold">
+                                        <i class="bi bi-exclamation-circle"></i> @diasRetraso días de mora
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-success mt-1 fw-bold">
+                                        <i class="bi bi-check-circle"></i> Entrega a tiempo
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
                     <hr />
-                    <dl class="row">
-                        <dt class="col-sm-2">Comentario:</dt>
-                        <dd class="col-sm-10">@Model.Comentario</dd>
-                    </dl>
-                }
-            </div>
-        </div>
 
-        <div class="card mb-3">
-            <div class="card-header bg-success text-white">
-                <h5><i class="bi bi-calculator"></i> Cálculo de Costos</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td><strong>Monto por día:</strong></td>
-                            <td class="text-end">$@Model.MontoPorDia.ToString("N2")</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Días rentados:</strong></td>
-                            <td class="text-end">@Model.CantidadDias día(s)</td>
-                        </tr>
-                        <tr class="table-light">
-                            <td><strong>Subtotal:</strong></td>
-                            <td class="text-end"><strong>$@montoBase.ToString("N2")</strong></td>
-                        </tr>
-                        @if (diasRetraso > 0)
-                        {
-                            <tr class="table-warning">
-                                <td><strong>Recargo por retraso:</strong></td>
-                                <td class="text-end">$@articulo.MontoEntregaTardia.ToString("N2") × @diasRetraso día(s) = <strong>$@montoRetraso.ToString("N2")</strong></td>
-                            </tr>
-                        }
-                        <tr class="table-success">
-                            <td><strong>TOTAL A COBRAR:</strong></td>
-                            <td class="text-end"><h4 class="mb-0">$@montoTotal.ToString("N2")</h4></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h5>Confirmar Devolución</h5>
-            </div>
-            <div class="card-body">
-                <form asp-action="ProcesarDevolucionConfirmed" method="post">
-                    <input type="hidden" name="id" value="@Model.NoRenta" />
-
-                    <div class="mb-3">
-                        <label for="comentarioDevolucion" class="form-label">Comentario de Devolución (Opcional)</label>
-                        <textarea class="form-control" id="comentarioDevolucion" name="comentarioDevolucion" rows="3" placeholder="Ej: Artículo devuelto en buen estado"></textarea>
+                    <h5 class="mb-3"><i class="bi bi-calculator"></i> Liquidación</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>Renta Base (@Model.CantidadDias días × $@Model.MontoPorDia.ToString("N2"))</td>
+                                    <td class="text-end font-monospace">$@montoBase.ToString("N2")</td>
+                                </tr>
+                                @if (diasRetraso > 0)
+                                {
+                                    <tr class="text-danger">
+                                        <td>Recargo por Mora (@diasRetraso días × $@articulo?.MontoEntregaTardia.ToString("N2"))</td>
+                                        <td class="text-end font-monospace fw-bold">+$@montoRetraso.ToString("N2")</td>
+                                    </tr>
+                                }
+                                <tr class="border-top">
+                                    <td class="pt-3 fs-5 fw-bold">Total a Pagar</td>
+                                    <td class="text-end pt-3 fs-4 fw-bold text-success">$@montoTotal.ToString("N2")</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <div class="alert alert-warning" role="alert">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        <strong>Importante:</strong> Al confirmar, el artículo volverá a estar disponible para renta y la transacción quedará registrada como devuelta.
-                    </div>
+                    <form asp-action="ProcesarDevolucionConfirmed" method="post" class="vc-bg-alt p-3 rounded">
+                        <input type="hidden" name="id" value="@Model.NoRenta" />
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a asp-action="Devolucion" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success btn-lg">
-                            <i class="bi bi-check-circle"></i> Confirmar Devolución
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Comentario de Cierre</label>
+                            <input type="text" name="comentarioDevolucion" class="form-control form-control-sm" placeholder="Ej. Disco rayado, caja rota..." />
+                        </div>
 
-    <div class="col-md-4">
-        <div class="card bg-info text-white mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Resumen</h5>
-                <hr />
-                <p class="mb-1"><strong>Total a cobrar:</strong></p>
-                <h2 class="mb-3">$@montoTotal.ToString("N2")</h2>
-                @if (diasRetraso > 0)
-                {
-                    <p class="mb-0">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        Incluye $@montoRetraso.ToString("N2") de recargo por @diasRetraso día(s) de retraso
-                    </p>
-                }
-                else
-                {
-                    <p class="mb-0">
-                        <i class="bi bi-check-circle"></i>
-                        Devuelto a tiempo, sin recargos adicionales
-                    </p>
-                }
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <h6>Información del Artículo</h6>
-                <hr />
-                <p><strong>Título:</strong> @articulo?.Titulo</p>
-                <p><strong>Monto por día:</strong> $@articulo?.RentaPorDia.ToString("N2")</p>
-                <p><strong>Cargo por retraso:</strong> $@articulo?.MontoEntregaTardia.ToString("N2") por día</p>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success py-2 fw-bold">
+                                <i class="bi bi-cash-coin me-2"></i> Cobrar y Finalizar
+                            </button>
+                            <a asp-action="Devolucion" class="btn btn-link text-secondary text-decoration-none">Volver sin procesar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

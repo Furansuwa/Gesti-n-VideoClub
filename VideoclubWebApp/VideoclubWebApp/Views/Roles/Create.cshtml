@@ -1,9 +1,45 @@
-﻿<h2>Crear Rol</h2>
+﻿@{
+    ViewData["Title"] = "Crear Rol";
+}
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="roleName">Nombre del Rol</label>
-        <input type="text" name="roleName" class="form-control" />
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Definir Nuevo Rol</h1>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Volver
+                </a>
+            </div>
+
+            <div class="vc-card-panel shadow-sm">
+                <div class="card-header bg-transparent border-bottom py-3">
+                    <h5 class="mb-0 text-primary"><i class="fa-solid fa-shield-cat me-2"></i>Configuración de Acceso</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+
+                        <div class="alert alert-info d-flex align-items-center mb-4" role="alert">
+                            <i class="fa-solid fa-circle-info me-3 fs-4"></i>
+                            <div>
+                                <strong>Nota:</strong> El nombre del rol debe ser único (ej. "Admin", "Vendedor").
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="roleName" class="form-label fw-bold">Nombre del Rol</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-signature"></i></span>
+                                <input type="text" name="roleName" class="form-control" placeholder="Ej. Supervisor" required />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3">
+                            <i class="fa-solid fa-plus-circle me-2"></i> Crear Rol en Sistema
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Crear</button>
-</form>
+</div>

@@ -4,27 +4,35 @@
     ViewData["Title"] = "Detalles del Idioma";
 }
 
-<h1>Detalles</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="vc-card-panel shadow text-center position-relative">
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-globe fa-3x text-info"></i>
+                        </div>
+                    </div>
 
-<div>
-    <h4>Idioma</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Volver a la Lista</a>
+                    <h2 class="fw-bold display-6 mb-2">@Model.Descripcion</h2>
+                    <p class="vc-text-secondary mb-4">Opción de Audio/Subtítulos</p>
+
+                    @if (Model.Estado == "Activo")
+                    {
+                        <span class="badge bg-success px-3 py-2 rounded-pill">Disponible</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary px-3 py-2 rounded-pill">No Disponible</span>
+                    }
+
+                    <div class="mt-5 d-flex gap-2">
+                        <a asp-action="Index" class="btn btn-outline-secondary w-50">Volver</a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary w-50">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

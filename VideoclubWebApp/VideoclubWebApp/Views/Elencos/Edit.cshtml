@@ -2,38 +2,50 @@
 @model Elenco
 
 @{
-    ViewData["Title"] = "Editar Elenco";
+    ViewData["Title"] = "Editar Artista";
 }
 
-<h1>Editar Miembro del Elenco</h1>
-<h4>Modificar información</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-
-            <div class="form-group mb-3">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Editar Artista</h1>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Cancelar
+                </a>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Estado" class="control-label"></label>
-                <select asp-for="Estado" class="form-control">
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 text-primary">Modificar Datos</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
 
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Estado" class="form-label"></label>
+                            <select asp-for="Estado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="Estado" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3">
+                            <i class="fa-solid fa-check"></i> Actualizar Datos
+                        </button>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

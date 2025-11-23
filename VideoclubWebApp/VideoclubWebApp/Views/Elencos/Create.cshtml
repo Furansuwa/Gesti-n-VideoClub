@@ -2,37 +2,49 @@
 @model Elenco
 
 @{
-    ViewData["Title"] = "Crear Elenco";
+    ViewData["Title"] = "Nuevo Artista";
 }
 
-<h1>Crear Miembro del Elenco</h1>
-<h4>Nuevo miembro</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Registrar Artista</h1>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Volver
+                </a>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Estado" class="control-label"></label>
-                <select asp-for="Estado" class="form-control">
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 text-primary">Información del Artista</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold"></label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre Artístico" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Estado" class="form-label"></label>
+                            <select asp-for="Estado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="Estado" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3">
+                            <i class="fa-solid fa-save"></i> Guardar Artista
+                        </button>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

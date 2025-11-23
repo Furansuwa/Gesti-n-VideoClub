@@ -1,23 +1,44 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
-<h2>Roles</h2>
+@{
+    ViewData["Title"] = "Roles y Permisos";
+}
 
-<a asp-action="Create">Crear Nuevo Rol</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Roles de Seguridad</h1>
+    <a asp-action="Create" class="btn-vc-create">
+        <i class="fa-solid fa-shield-halved"></i> Nuevo Rol
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
+<div class="vc-card-panel p-0 overflow-hidden">
+    <table class="table table-hover mb-0 align-middle">
+        <thead class="vc-table-head">
             <tr>
-                <td>@role.Id</td>
-                <td>@role.Name</td>
+                <th class="ps-4 py-3">ID del Rol</th>
+                <th>Nombre del Rol</th>
+                <th class="text-center">Estado</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td class="ps-4 font-monospace small text-muted">
+                        @role.Id
+                    </td>
+                    <td>
+                        <span class="fw-bold fs-5 text-dark">
+                            <i class="fa-solid fa-user-lock me-2 text-primary"></i>@role.Name
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-success rounded-pill">
+                            <i class="fa-solid fa-check me-1"></i> Activo
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

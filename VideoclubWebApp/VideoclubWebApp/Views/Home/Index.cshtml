@@ -1,8 +1,85 @@
 ﻿@{
-    ViewData["Title"] = "Video Club";
+    ViewData["Title"] = "Panel Principal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Gestión de VideoClub</h1>
-    <p>Proximamente, mientras tanto puede entretenerse viedo el siguiete video: <a href="https://youtu.be/_6wKpgES7yQ?si=a6I8MBYW4ty0gEiu">https://youtu.be/_6wKpgES7yQ?si=a6I8MBYW4ty0gEiu</a> Un corto de silksong.</p>
+<div class="text-center py-5 mb-4">
+    <h1 class="display-4 fw-bold text-primary">Bienvenido, Propietario</h1>
+    <p class="lead vc-text-secondary">Gestión integral de Videoclub - Sistema vcPro</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <a asp-controller="Rentas" asp-action="Create" class="vc-card-panel p-4 dashboard-stat-card text-center">
+            <div class="mb-3">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4">
+                    <i class="fa-solid fa-cash-register fa-3x text-primary"></i>
+                </div>
+            </div>
+            <h3>Nueva Renta</h3>
+            <p class="vc-text-secondary">Registrar un préstamo de película.</p>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-controller="Rentas" asp-action="Devolucion" class="vc-card-panel p-4 dashboard-stat-card text-center">
+            <div class="mb-3">
+                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-4">
+                    <i class="fa-solid fa-clock-rotate-left fa-3x text-warning"></i>
+                </div>
+            </div>
+            <h3>Devoluciones</h3>
+            <p class="vc-text-secondary">Procesar entradas y calcular mora.</p>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-controller="Clientes" asp-action="Index" class="vc-card-panel p-4 dashboard-stat-card text-center">
+            <div class="mb-3">
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4">
+                    <i class="fa-solid fa-users fa-3x text-success"></i>
+                </div>
+            </div>
+            <h3>Clientes</h3>
+            <p class="vc-text-secondary">Administrar cartera de clientes.</p>
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-6">
+        <div class="vc-card-panel h-100 p-4">
+            <h4 class="mb-3 border-bottom pb-2">Gestión de Catálogo</h4>
+            <div class="d-grid gap-2">
+                <a asp-controller="Articulos" asp-action="Index" class="btn btn-outline-primary text-start">
+                    <i class="fa-solid fa-film me-2"></i> Ver Todas las Películas
+                </a>
+                <a asp-controller="Generos" asp-action="Index" class="btn btn-outline-secondary text-start">
+                    <i class="fa-solid fa-tags me-2"></i> Administrar Géneros
+                </a>
+                <a asp-controller="Articulos" asp-action="Create" class="btn btn-outline-success text-start">
+                    <i class="fa-solid fa-plus me-2"></i> Agregar Nueva Película
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="vc-card-panel h-100 p-4">
+            <h4 class="mb-3 border-bottom pb-2">Administración</h4>
+            <div class="row g-2">
+                <div class="col-6">
+                    <a asp-controller="Reportes" asp-action="Index" class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3 border">
+                        <i class="fa-solid fa-file-pdf fa-2x mb-2 text-danger"></i>
+                        <span>Reportes</span>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a asp-controller="Empleados" asp-action="Index" class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center py-3 border">
+                        <i class="fa-solid fa-user-tie fa-2x mb-2 text-dark"></i>
+                        <span>Personal</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -246,20 +246,13 @@ namespace VideoclubWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var articulo = await _context.Articulos
-                .Include(a => a.ElencoArticulos)
-                .FirstOrDefaultAsync(a => a.Id == id);
-
+            var articulo = await _context.Articulos.FindAsync(id);
             if (articulo != null)
             {
-                // Primero eliminar las relaciones con elenco
-                _context.ElencoArticulos.RemoveRange(articulo.ElencoArticulos);
-
-                // Luego eliminar el artículo
-                _context.Articulos.Remove(articulo);
+                articulo.Estado = "Inactivo";
+                _context.Update(articulo);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,68 +1,93 @@
 ﻿@model VideoClubWebApp.Models.Cliente
 
 @{
-    ViewData["Title"] = "Crear Cliente";
+    ViewData["Title"] = "Nuevo Cliente";
 }
 
-<h1>Crear Cliente</h1>
-<h4>Nuevo Cliente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" maxlength="11" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
-                <small class="form-text text-muted">Máximo 11 caracteres</small>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="NoTarjetaCR" class="control-label"></label>
-                <input asp-for="NoTarjetaCR" class="form-control" maxlength="16" />
-                <span asp-validation-for="NoTarjetaCR" class="text-danger"></span>
-                <small class="form-text text-muted">Máximo 16 caracteres</small>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="LimiteCredito" class="control-label"></label>
-                <input asp-for="LimiteCredito" class="form-control" type="number" step="0.01" />
-                <span asp-validation-for="LimiteCredito" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="TipoPersona" class="control-label"></label>
-                <select asp-for="TipoPersona" class="form-control">
-                    <option value="">-- Seleccione --</option>
-                    <option value="Física">Física</option>
-                    <option value="Jurídica">Jurídica</option>
-                </select>
-                <span asp-validation-for="TipoPersona" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Estado" class="control-label"></label>
-                <select asp-for="Estado" class="form-control">
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
-            </div>
-        </form>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Registrar Nuevo Cliente</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </a>
     </div>
+
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-7 mb-4">
+                <div class="vc-card-panel h-100">
+                    <div class="card-header bg-transparent border-bottom py-3">
+                        <h5 class="card-title mb-0 text-primary">Datos Personales</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold"></label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre completo" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cedula" class="form-label fw-bold"></label>
+                                <input asp-for="Cedula" class="form-control" placeholder="000-0000000-0" maxlength="11" />
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="TipoPersona" class="form-label fw-bold"></label>
+                                <select asp-for="TipoPersona" class="form-select">
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="Fisica">Física</option>
+                                    <option value="Juridica">Jurídica</option>
+                                </select>
+                                <span asp-validation-for="TipoPersona" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Estado" class="form-label"></label>
+                            <select asp-for="Estado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="Estado" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 mb-4">
+                <div class="vc-card-panel h-100 vc-bg-alt">
+                    <div class="card-header bg-transparent border-bottom py-3">
+                        <h5 class="card-title mb-0 text-dark">Información Financiera</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label asp-for="NoTarjetaCR" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
+                                <input asp-for="NoTarjetaCR" class="form-control" placeholder="16 dígitos" maxlength="16" />
+                            </div>
+                            <span asp-validation-for="NoTarjetaCR" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="LimiteCredito" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="LimiteCredito" class="form-control" type="number" step="0.01" />
+                            </div>
+                            <span asp-validation-for="LimiteCredito" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3">
+                <i class="fa-solid fa-save me-2"></i> Guardar Cliente
+            </button>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

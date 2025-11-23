@@ -4,30 +4,36 @@
     ViewData["Title"] = "Eliminar Idioma";
 }
 
-<h1>Eliminar</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="vc-card-panel shadow-lg border-0">
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <i class="fa-solid fa-trash-can fa-3x mb-3"></i>
+                    <h3 class="mb-0">¿Eliminar Idioma?</h3>
+                </div>
 
-<h3>¿Estás seguro de que quieres eliminar esto?</h3>
-<div>
-    <h4>Idioma</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la Lista</a>
-    </form>
+                <div class="card-body p-4 text-center">
+                    <p class="lead vc-text-secondary">Estás a punto de borrar:</p>
+                    <h2 class="fw-bold mb-4">@Model.Descripcion</h2>
+
+                    <div class="alert alert-warning text-start">
+                        <small><i class="fa-solid fa-triangle-exclamation"></i> <strong>Nota:</strong> Si existen películas configuradas con este idioma, no se recomienda eliminarlo físicamente.</small>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="mt-4 d-grid gap-2">
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fa-solid fa-xmark me-2"></i> Confirmar Eliminación
+                        </button>
+
+                        <a asp-action="Index" class="btn btn-light btn-lg text-muted">
+                            Cancelar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

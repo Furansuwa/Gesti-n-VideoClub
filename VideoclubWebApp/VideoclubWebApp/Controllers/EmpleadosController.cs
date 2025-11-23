@@ -145,10 +145,12 @@ namespace VideoclubWebApp.Controllers
             var empleado = await _context.Empleados.FindAsync(id);
             if (empleado != null)
             {
-                _context.Empleados.Remove(empleado);
+                empleado.Estado = "Inactivo";
+                _context.Update(empleado);
+
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

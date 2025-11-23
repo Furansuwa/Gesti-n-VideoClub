@@ -133,8 +133,12 @@ namespace VideoClubWebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var genero = await _context.Generos.FindAsync(id);
-            _context.Generos.Remove(genero);
-            await _context.SaveChangesAsync();
+            if (genero != null)
+            {
+                genero.Estado = "Inactivo";
+                _context.Update(genero);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

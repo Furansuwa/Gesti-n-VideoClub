@@ -2,67 +2,38 @@
 
 @{
     ViewData["Title"] = "Eliminar Artículo";
-    var tipoArticulo = ViewBag.TipoArticulo as VideoClubWebApp.Models.TipoArticulo;
-    var genero = ViewBag.Genero as VideoClubWebApp.Models.Genero;
-    var idioma = ViewBag.Idioma as VideoClubWebApp.Models.Idioma;
 }
 
-<h1>Eliminar Artículo</h1>
-<h3 class="text-danger">¿Estás seguro de que deseas eliminar este artículo?</h3>
-<hr />
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="vc-card-panel shadow-lg border-0">
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <i class="fa-solid fa-triangle-exclamation fa-3x mb-3"></i>
+                    <h3 class="mb-0">¿Eliminar Artículo?</h3>
+                </div>
 
-<div class="alert alert-danger" role="alert">
-    <i class="bi bi-exclamation-triangle"></i>
-    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
-</div>
+                <div class="card-body p-4 text-center">
+                    <p class="lead vc-text-secondary">Estás a punto de eliminar permanentemente:</p>
+                    <h2 class="fw-bold mb-4">@Model.Titulo</h2>
 
-<div class="card">
-    <div class="card-header bg-danger text-white">
-        <h4>@Model.Titulo</h4>
-    </div>
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">ID:</dt>
-            <dd class="col-sm-9">@Model.Id</dd>
+                    <div class="alert alert-warning text-start">
+                        <small><i class="fa-solid fa-info-circle"></i> Esta acción borrará el artículo del catálogo y desvinculará a los actores asociados. No se puede deshacer.</small>
+                    </div>
 
-            <dt class="col-sm-3">Tipo de Artículo:</dt>
-            <dd class="col-sm-9">@tipoArticulo?.Descripcion</dd>
+                    <form asp-action="Delete" method="post" class="mt-4 d-grid gap-2">
+                        <input type="hidden" asp-for="Id" />
 
-            <dt class="col-sm-3">Género:</dt>
-            <dd class="col-sm-9">@genero?.Descripcion</dd>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fa-solid fa-trash-can me-2"></i> Sí, Eliminar Definitivamente
+                        </button>
 
-            <dt class="col-sm-3">Idioma:</dt>
-            <dd class="col-sm-9">@idioma?.Descripcion</dd>
-
-            <dt class="col-sm-3">Renta por Día:</dt>
-            <dd class="col-sm-9">$@Model.RentaPorDia.ToString("N2")</dd>
-
-            <dt class="col-sm-3">Estado:</dt>
-            <dd class="col-sm-9">@Model.Estado</dd>
-        </dl>
-
-        @if (Model.ElencoArticulos != null && Model.ElencoArticulos.Any())
-        {
-            <hr />
-            <h5>Elenco Asociado:</h5>
-            <ul>
-                @foreach (var ea in Model.ElencoArticulos)
-                {
-                    <li>@ea.Elenco.Nombre - @ea.Rol</li>
-                }
-            </ul>
-        }
+                        <a asp-action="Index" class="btn btn-light btn-lg text-muted">
+                            Cancelar y Volver
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<form asp-action="Delete" method="post" class="mt-3">
-    <input type="hidden" asp-for="Id" />
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a asp-action="Index" class="btn btn-secondary">
-            <i class="bi bi-x-circle"></i> Cancelar
-        </a>
-        <button type="submit" class="btn btn-danger">
-            <i class="bi bi-trash"></i> Confirmar Eliminación
-        </button>
-    </div>
-</form>

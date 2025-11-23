@@ -2,89 +2,113 @@
 @model ArticuloElencoViewModel
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Nuevo Artículo";
 }
 
-<h1>Crear</h1>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Registrar Nuevo Artículo</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </a>
+    </div>
 
-<h4>Artículo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Articulo.Titulo" class="control-label"></label>
-                <input asp-for="Articulo.Titulo" class="form-control" />
-                <span asp-validation-for="Articulo.Titulo" class="text-danger"></span>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="vc-card-panel mb-4">
+            <div class="card-header bg-transparent border-bottom py-3">
+                <h5 class="card-title mb-0 text-primary">Información General</h5>
             </div>
-            <div class="form-group">
-                <label asp-for="Articulo.TipoArticuloId" class="control-label"></label>
-                <select asp-for="Articulo.TipoArticuloId" class="form-control" asp-items="ViewBag.TipoArticuloId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.IdiomaId" class="control-label"></label>
-                <select asp-for="Articulo.IdiomaId" class="form-control" asp-items="ViewBag.IdiomaId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.GeneroId" class="control-label"></label>
-                <select asp-for="Articulo.GeneroId" class="form-control" asp-items="ViewBag.GeneroId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.RentaPorDia" class="control-label"></label>
-                <input asp-for="Articulo.RentaPorDia" class="form-control" />
-                <span asp-validation-for="Articulo.RentaPorDia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.DiasRenta" class="control-label"></label>
-                <input asp-for="Articulo.DiasRenta" class="form-control" />
-                <span asp-validation-for="Articulo.DiasRenta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.MontoEntregaTardia" class="control-label"></label>
-                <input asp-for="Articulo.MontoEntregaTardia" class="form-control" />
-                <span asp-validation-for="Articulo.MontoEntregaTardia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Articulo.Estado" class="control-label"></label>
-                <input asp-for="Articulo.Estado" class="form-control" />
-                <span asp-validation-for="Articulo.Estado" class="text-danger"></span>
-            </div>
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h4>Elenco</h4>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label asp-for="Articulo.Titulo" class="form-label fw-bold"></label>
+                        <input asp-for="Articulo.Titulo" class="form-control" placeholder="Ej. El Padrino" />
+                        <span asp-validation-for="Articulo.Titulo" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Articulo.TipoArticuloId" class="form-label"></label>
+                        <select asp-for="Articulo.TipoArticuloId" class="form-select" asp-items="ViewBag.TipoArticuloId"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Articulo.IdiomaId" class="form-label"></label>
+                        <select asp-for="Articulo.IdiomaId" class="form-select" asp-items="ViewBag.IdiomaId"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Articulo.GeneroId" class="form-label"></label>
+                        <select asp-for="Articulo.GeneroId" class="form-select" asp-items="ViewBag.GeneroId"></select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Articulo.RentaPorDia" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input asp-for="Articulo.RentaPorDia" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Articulo.RentaPorDia" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Articulo.DiasRenta" class="form-label"></label>
+                        <input asp-for="Articulo.DiasRenta" class="form-control" />
+                        <span asp-validation-for="Articulo.DiasRenta" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Articulo.MontoEntregaTardia" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input asp-for="Articulo.MontoEntregaTardia" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Articulo.MontoEntregaTardia" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Articulo.Estado" class="form-label"></label>
+                        <select asp-for="Articulo.Estado" class="form-select">
+                            <option value="Disponible">Disponible</option>
+                            <option value="Rentado">Rentado</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                        <span asp-validation-for="Articulo.Estado" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="card-body">
+            </div>
+        </div>
+
+        <div class="vc-card-panel mb-4">
+            <div class="card-header bg-transparent border-bottom py-3">
+                <h5 class="card-title mb-0 text-dark">Asignar Elenco</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row">
                     @for (var i = 0; i < Model.ElencosDisponibles.Count; i++)
                     {
-                        <div class="row mb-2 align-items-center">
-                            <div class="col-md-3">
-                                <input asp-for="ElencosDisponibles[i].Asignado" type="checkbox" class="form-check-input" />
-                                <label asp-for="ElencosDisponibles[i].Asignado" class="form-check-label">
-                                    @Model.ElencosDisponibles[i].Nombre
-                                </label>
-
-                                <input asp-for="ElencosDisponibles[i].ElencoId" type="hidden" />
-                                <input asp-for="ElencosDisponibles[i].Nombre" type="hidden" />
-                            </div>
-                            <div class="col-md-9">
-                                <label asp-for="ElencosDisponibles[i].Rol" class="control-label">Rol</label>
-                                <input asp-for="ElencosDisponibles[i].Rol" class="form-control" />
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 border rounded vc-bg-alt">
+                                <div class="form-check mb-2">
+                                    <input asp-for="ElencosDisponibles[i].Asignado" type="checkbox" class="form-check-input" />
+                                    <label asp-for="ElencosDisponibles[i].Asignado" class="form-check-label fw-bold">
+                                        @Model.ElencosDisponibles[i].Nombre
+                                    </label>
+                                    <input asp-for="ElencosDisponibles[i].ElencoId" type="hidden" />
+                                    <input asp-for="ElencosDisponibles[i].Nombre" type="hidden" />
+                                </div>
+                                <div class="ps-4">
+                                    <input asp-for="ElencosDisponibles[i].Rol" class="form-control form-control-sm" placeholder="Rol del actor (opcional)" />
+                                </div>
                             </div>
                         </div>
-                        <hr />
                     }
                 </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<div>
-    <a asp-action="Index">Volver a la Lista</a>
+        <div class="mb-5">
+            <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3" style="font-size: 1.1rem;">
+                <i class="fa-solid fa-save me-2"></i> Guardar Nuevo Artículo
+            </button>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

@@ -2,54 +2,70 @@
 @model IEnumerable<Articulo>
 
 @{
-    ViewData["Title"] = "Artículos";
+    ViewData["Title"] = "Catálogo de Artículos";
 }
 
-<h1>Artículos</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Artículos</h1>
+    <a asp-action="Create" class="btn-vc-create">
+        <i class="fa-solid fa-plus"></i> Nuevo Artículo
+    </a>
+</div>
 
-<p>
-    <a asp-action="Create">Crear Nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentaPorDia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiasRenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="vc-card-panel p-0 overflow-hidden">
+    <table class="table table-hover mb-0 align-middle">
+        <thead class="vc-table-head">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RentaPorDia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiasRenta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                </td>
+                <th class="ps-4 py-3">@Html.DisplayNameFor(model => model.Titulo)</th>
+                <th>@Html.DisplayNameFor(model => model.RentaPorDia)</th>
+                <th>@Html.DisplayNameFor(model => model.DiasRenta)</th>
+                <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                <th class="text-center">Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="ps-4 fw-bold">
+                        <i class="fa-solid fa-film me-2 vc-text-secondary"></i>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td class="font-monospace text-primary">
+                        $@item.RentaPorDia.ToString("N2")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiasRenta) días
+                    </td>
+                    <td>
+                        @if (item.Estado == "Disponible")
+                        {
+                            <span class="badge bg-success rounded-pill">Disponible</span>
+                        }
+                        else if (item.Estado == "Rentado")
+                        {
+                            <span class="badge bg-warning text-dark rounded-pill">Rentado</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary rounded-pill">@item.Estado</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <div class="vc-actions">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-vc-icon edit" title="Editar">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-vc-icon details" title="Detalles">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-vc-icon delete" title="Eliminar">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

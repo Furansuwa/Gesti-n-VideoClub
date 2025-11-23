@@ -1,54 +1,66 @@
 ﻿@model VideoClubWebApp.Models.Cliente
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Cliente";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="vc-card-panel shadow border-0 overflow-hidden">
+                <div class="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-light">Perfil de Cliente</h4>
+                    @if (Model.Estado == "Activo")
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Inactivo</span>
+                    }
+                </div>
 
-<div>
-    <h4>Cliente</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoTarjetaCR)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoTarjetaCR)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LimiteCredito)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LimiteCredito)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoPersona)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoPersona)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="vc-bg-alt rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-user fa-2x text-primary"></i>
+                        </div>
+                        <h2 class="fw-bold">@Model.Nombre</h2>
+                        <p class="vc-text-secondary">Cédula: @Model.Cedula</p>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Información de Pago</h5>
+                            <div class="p-3 border rounded vc-bg-alt">
+                                <p class="mb-1 vc-text-secondary small">Tarjeta de Crédito</p>
+                                <p class="mb-0 fs-5 font-monospace">
+                                    <i class="fa-brands fa-cc-visa me-2"></i>
+                                    **** **** **** @Model.NoTarjetaCR.Substring(Math.Max(0, Model.NoTarjetaCR.Length - 4))
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <h5 class="text-primary mb-3">Crédito Disponible</h5>
+                            <div class="p-3 border rounded vc-bg-alt">
+                                <p class="mb-1 vc-text-secondary small">Límite Aprobado</p>
+                                <p class="mb-0 fs-4 fw-bold text-success">$@Model.LimiteCredito.ToString("N2")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent p-3 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left"></i> Volver
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary px-4">
+                        <i class="fa-solid fa-pen"></i> Editar Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

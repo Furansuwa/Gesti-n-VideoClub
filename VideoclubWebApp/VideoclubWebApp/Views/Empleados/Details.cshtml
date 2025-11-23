@@ -1,54 +1,96 @@
 ﻿@model VideoClubWebApp.Models.Empleado
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Editar Empleado";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Editar Expediente: @Model.Nombre</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Cancelar
+        </a>
+    </div>
 
-<div>
-    <h4>Empleado</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TandaLabor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TandaLabor)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcientoComision)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PorcientoComision)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaIngreso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaIngreso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-    </dl>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-7 mb-4">
+                <div class="vc-card-panel h-100">
+                    <div class="card-header bg-transparent border-bottom py-3">
+                        <h5 class="mb-0 text-primary">Datos Personales</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cedula" class="form-label fw-bold"></label>
+                                <input asp-for="Cedula" class="form-control" />
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Estado" class="form-label"></label>
+                                <select asp-for="Estado" class="form-select">
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 mb-4">
+                <div class="vc-card-panel h-100 vc-bg-alt">
+                    <div class="card-header bg-transparent border-bottom py-3">
+                        <h5 class="mb-0 text-dark">Condiciones Laborales</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label asp-for="TandaLabor" class="form-label"></label>
+                            <select asp-for="TandaLabor" class="form-select">
+                                <option value="Matutina">Matutina</option>
+                                <option value="Vespertina">Vespertina</option>
+                                <option value="Nocturna">Nocturna</option>
+                            </select>
+                            <span asp-validation-for="TandaLabor" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PorcientoComision" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="PorcientoComision" class="form-control" type="number" step="0.01" />
+                                <span class="input-group-text">%</span>
+                            </div>
+                            <span asp-validation-for="PorcientoComision" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FechaIngreso" class="form-label"></label>
+                            <input asp-for="FechaIngreso" class="form-control" type="date" />
+                            <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <button type="submit" class="btn-vc-create border-0 w-100 justify-content-center py-3">
+                <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
+            </button>
+        </div>
+    </form>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

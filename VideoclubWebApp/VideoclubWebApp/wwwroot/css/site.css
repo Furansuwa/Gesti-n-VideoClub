@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap');
+
 html {
   font-size: 14px;
 }
@@ -20,6 +22,36 @@ html {
 body {
   margin-bottom: 60px;
 }
+.login-body-style {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/bg-login.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* IMPORTANTE: Esto apila el logo encima de la card */
+    align-items: center;
+    justify-content: center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.login-brand {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #0071eb; 
+    text-decoration: none;
+    margin-bottom: 20px; /* Espacio entre el logo y la tarjeta */
+    text-shadow: 0px 4px 15px rgba(0,0,0,0.9); /* Sombra fuerte para contraste */
+    letter-spacing: 1px;
+    transition: transform 0.3s;
+}
+
+    .login-brand:hover {
+        color: #0071eb;
+        transform: scale(1.05);
+    }
 
 
 /* Fondo oscuro y centrado para el cuerpo solo en estas páginas */
@@ -124,4 +156,273 @@ body {
     .form-check-input:checked {
         background-color: #0071eb;
         border-color: #0071eb;
+    }
+
+/* === ARQUITECTURA PARA TEMAS (Light/Dark) === */
+
+/* 1. Panel Genérico */
+.vc-card-panel {
+    background-color: #ffffff;
+    color: #212529;
+    border: 1px solid rgba(0,0,0,0.08); /* Borde muy sutil */
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 2. Fondos Secundarios (Reemplaza a 'bg-light') */
+.vc-bg-alt {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+/* 3. Cabeceras de Tabla */
+.vc-table-head {
+    background-color: #f1f3f5;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* 4. Textos Secundarios (Reemplaza a 'text-muted') */
+.vc-text-secondary {
+    color: #6c757d;
+}
+
+/* === BOTONES CRUD PERSONALIZADOS === */
+
+/* 1. Botón Principal (Crear Nuevo) */
+.btn-vc-create {
+    background-color: #0071eb; /* Tu azul */
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 113, 235, 0.3); /* Sombra azulada suave */
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre icono y texto */
+}
+
+    .btn-vc-create:hover {
+        background-color: #005bb5;
+        transform: translateY(-2px); /* Efecto de elevación */
+        box-shadow: 0 6px 12px rgba(0, 113, 235, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+/* 2. Grupo de botones en la tabla */
+.vc-actions {
+    display: flex;
+    gap: 5px; /* Espacio entre botoncitos */
+    justify-content: center; /* Centrados en la celda */
+}
+
+/* 3. Botones de Icono (Editar, Detalles, Borrar) */
+.btn-vc-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%; /* Circulares */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    color: #555;
+    background-color: #f0f2f5; /* Fondo gris muy clarito por defecto */
+}
+
+    /* Color específico para Editar (Azul) */
+    .btn-vc-icon.edit:hover {
+        color: #0071eb;
+        border-color: #0071eb;
+        background-color: white;
+    }
+
+    /* Color específico para Detalles (Gris oscuro / Negro) */
+    .btn-vc-icon.details:hover {
+        color: #000;
+        border-color: #000;
+        background-color: white;
+    }
+
+    /* Color específico para Borrar (Rojo Netflix) */
+    .btn-vc-icon.delete:hover {
+        color: #e50914;
+        border-color: #e50914;
+        background-color: white;
+    }
+
+/* =========================================
+   SISTEMA DE TEMAS (LIGHT / DARK)
+   ========================================= */
+:root {
+    /* Variables Tema Claro (Por defecto) */
+    --vc-bg-body: #f4f6f9;
+    --vc-text-body: #212529;
+    --vc-card-bg: #ffffff;
+    --vc-card-border: rgba(0,0,0,0.08);
+    --vc-bg-alt: #f8f9fa;
+    --vc-text-muted: #6c757d;
+    --vc-table-head-bg: #f1f3f5;
+    --vc-table-head-text: #495057;
+    --vc-nav-bg: #ffffff;
+    --vc-nav-text: #212529;
+    --vc-brand-color: #0071eb;
+}
+
+/* Variables Tema Oscuro */
+[data-theme="dark"] {
+    --vc-bg-body: #121212;
+    --vc-text-body: #e0e0e0;
+    --vc-card-bg: #1e1e1e;
+    --vc-card-border: rgba(255,255,255,0.1);
+    --vc-bg-alt: #2d2d2d;
+    --vc-text-muted: #a0a0a0;
+    --vc-table-head-bg: #2c2c2c;
+    --vc-table-head-text: #e0e0e0;
+    --vc-nav-bg: #1e1e1e;
+    --vc-nav-text: #e0e0e0;
+    --vc-brand-color: #3a8ef7; /* Azul un poco más claro para contraste */
+}
+
+/* Aplicar variables al cuerpo */
+body {
+    background-color: var(--vc-bg-body);
+    color: var(--vc-text-body);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* === ACTUALIZACIÓN DE CLASES SEMÁNTICAS === */
+.vc-card-panel {
+    background-color: var(--vc-card-bg);
+    border: 1px solid var(--vc-card-border);
+    color: var(--vc-text-body);
+}
+
+.vc-bg-alt {
+    background-color: var(--vc-bg-alt);
+    color: var(--vc-text-body);
+}
+
+.vc-table-head {
+    background-color: var(--vc-table-head-bg);
+    color: var(--vc-table-head-text);
+}
+
+.vc-text-secondary {
+    color: var(--vc-text-muted) !important;
+}
+
+/* === NAVBAR & BRAND === */
+.navbar {
+    background-color: var(--vc-nav-bg) !important;
+    border-bottom: 1px solid var(--vc-card-border);
+}
+
+.navbar-brand.vc-brand-logo {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--vc-brand-color) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: var(--vc-nav-text) !important;
+}
+
+    .nav-link:hover {
+        color: var(--vc-brand-color) !important;
+    }
+
+/* Footer */
+.footer {
+    background-color: var(--vc-nav-bg);
+    border-top: 1px solid var(--vc-card-border) !important;
+    color: var(--vc-text-muted);
+}
+
+/* Dashboard Cards */
+.dashboard-stat-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+}
+
+    .dashboard-stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+/* Botón Toggle Dark Mode */
+.theme-toggle {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.3s;
+    color: var(--vc-nav-text);
+}
+
+    .theme-toggle:hover {
+        background-color: var(--vc-bg-alt);
+    }
+
+/* ==========================================
+   CORRECCIÓN DE TABLAS EN MODO OSCURO
+   ========================================== */
+
+[data-theme="dark"] .table {
+    color: var(--vc-text-body); /* Fuerza texto claro en toda la tabla */
+    border-color: var(--vc-card-border);
+}
+
+/* Arreglar el efecto "Hover" (al pasar el mouse) en modo oscuro */
+[data-theme="dark"] .table-hover > tbody > tr:hover > * {
+    color: #fff; /* Texto blanco brillante al pasar el mouse */
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutilmente más claro */
+    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0.05); 
+}
+
+/* Arreglar las filas "Striped" (alternadas) si las usas */
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+    color: var(--vc-text-body);
+    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0.02); /* Fondo alterno muy sutil */
+}
+
+/* Asegurar que los enlaces dentro de la tabla sean legibles */
+[data-theme="dark"] .table a:not(.btn) {
+    color: #6ea8fe; /* Un azul claro legible sobre negro */
+}
+
+    [data-theme="dark"] .table a:not(.btn):hover {
+        color: #9ec5fe;
+    }
+
+/* Ajuste específico para inputs dentro de paneles oscuros (por si acaso) */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+    [data-theme="dark"] .form-control:focus,
+    [data-theme="dark"] .form-select:focus {
+        background-color: #333;
+        border-color: var(--vc-brand-color);
+        color: #fff;
+    }
+
+    /* Placeholder de inputs en modo oscuro */
+    [data-theme="dark"] .form-control::placeholder {
+        color: #888;
     }

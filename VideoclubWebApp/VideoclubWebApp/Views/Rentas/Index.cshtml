@@ -1,107 +1,92 @@
 ﻿@model IEnumerable<VideoClubWebApp.Models.Rentas>
 
 @{
-    ViewData["Title"] = "Ver Rentas";
+    ViewData["Title"] = "Historial de Rentas";
 }
 
-<h1>Rentas</h1>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Nueva Renta
-    </a>
-</p>
-
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No. Renta</th>
-                        <th>Cliente ID</th>
-                        <th>Artículo ID</th>
-                        <th>Empleado ID</th>
-                        <th>Fecha Renta</th>
-                        <th>Fecha Devolución</th>
-                        <th>Monto/Día</th>
-                        <th>Días</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <strong>#@Html.DisplayFor(modelItem => item.NoRenta)</strong>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.ClienteId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.ArticuloId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.EmpleadoId)</td>
-                            <td>@item.FechaRenta.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>
-                                @if (item.FechaDevolucion.HasValue)
-                                {
-                                    @item.FechaDevolucion.Value.ToString("dd/MM/yyyy HH:mm")
-                                }
-                                else
-                                {
-                                    <span class="text-muted">Pendiente</span>
-                                }
-                            </td>
-                            <td>$@Html.DisplayFor(modelItem => item.MontoPorDia)</td>
-                            <td>@Html.DisplayFor(modelItem => item.CantidadDias)</td>
-                            <td>
-                                @if (item.Estado == "Activa")
-                                {
-                                    <span class="badge bg-success">Activa</span>
-                                }
-                                else if (item.Estado == "Devuelta")
-                                {
-                                    <span class="badge bg-secondary">Devuelta</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning">@item.Estado</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a asp-action="Details" asp-route-id="@item.NoRenta" class="btn btn-sm btn-info" title="Ver Detalles">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    @if (item.Estado == "Activa")
-                                    {
-                                        <a asp-action="ProcesarDevolucion" asp-route-id="@item.NoRenta" class="btn btn-sm btn-warning" title="Procesar Devolución">
-                                            <i class="bi bi-arrow-return-left"></i>
-                                        </a>
-                                    }
-                                    <a asp-action="Delete" asp-route-id="@item.NoRenta" class="btn btn-sm btn-danger" title="Eliminar">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Operaciones de Renta</h1>
+    <div>
+        <a asp-action="Devolucion" class="btn btn-outline-warning me-2">
+            <i class="fa-solid fa-clock-rotate-left"></i> Devoluciones Pendientes
+        </a>
+        <a asp-action="Create" class="btn-vc-create">
+            <i class="fa-solid fa-circle-plus"></i> Nueva Renta
+        </a>
     </div>
 </div>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info mt-3" role="alert">
-        No hay rentas registradas. Haz clic en "Nueva Renta" para crear una.
+<div class="vc-card-panel p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="vc-table-head">
+                <tr>
+                    <th class="ps-4 py-3">Renta #</th>
+                    <th>Cliente</th>
+                    <th>Artículo</th>
+                    <th>Fecha Renta</th>
+                    <th>Devolución</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-4 font-monospace fw-bold text-primary">
+                            #@item.NoRenta
+                        </td>
+                        <td>
+                            <i class="fa-solid fa-user me-1 vc-text-secondary"></i> @item.ClienteId
+                        </td>
+                        <td>
+                            <i class="fa-solid fa-film me-1 vc-text-secondary"></i> @item.ArticuloId
+                        </td>
+                        <td>@item.FechaRenta.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.FechaDevolucion.HasValue)
+                            {
+                                <span class="text-success">@item.FechaDevolucion.Value.ToString("dd/MM/yyyy")</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Estado == "Activa")
+                            {
+                                <span class="badge bg-primary rounded-pill">Activa</span>
+                            }
+                            else if (item.Estado == "Devuelta")
+                            {
+                                <span class="badge bg-secondary rounded-pill">Cerrada</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger rounded-pill">@item.Estado</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="vc-actions">
+                                <a asp-action="Details" asp-route-id="@item.NoRenta" class="btn-vc-icon details" title="Ver Recibo">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </a>
+                                @if (item.Estado == "Activa")
+                                {
+                                    <a asp-action="ProcesarDevolucion" asp-route-id="@item.NoRenta" class="btn-vc-icon edit text-warning border-warning" title="Procesar Devolución">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </a>
+                                }
+                                <a asp-action="Delete" asp-route-id="@item.NoRenta" class="btn-vc-icon delete" title="Anular">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-}
+</div>

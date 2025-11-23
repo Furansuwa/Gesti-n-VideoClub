@@ -1,74 +1,107 @@
 ﻿@model VideoclubWebApp.Controllers.QueryResultViewModel
 @{
-    ViewData["Title"] = "Consulta a Base de Datos";
+    ViewData["Title"] = "Consola SQL";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<p>Escriba su consulta SQL a continuación. Solo se permiten consultas de tipo SELECT.</p>
-
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Index" method="post">
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                <label for="query" class="control-label">Consulta SQL</label>
-                <textarea id="query" name="query" class="form-control" rows="8">@(Model?.Query ?? "SELECT * FROM Articulos")</textarea>
-            </div>
-            <div class="form-group mt-2">
-                <input type="submit" value="Ejecutar Consulta" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Consola de Base de Datos</h1>
+            <p class="vc-text-secondary mb-0"><i class="fa-solid fa-terminal me-2"></i>Ejecuta consultas SQL directas al sistema.</p>
+        </div>
     </div>
-</div>
 
-<hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="vc-card-panel mb-4 overflow-hidden">
+                <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
+                    <small class="font-monospace"><i class="fa-solid fa-code me-1"></i> Editor SQL</small>
+                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-triangle-exclamation me-1"></i> Solo lectura (SELECT)</span>
+                </div>
 
-<h3>Resultados</h3>
+                <div class="card-body p-0">
+                    <form asp-action="Index" method="post">
+                        @Html.AntiForgeryToken()
 
-@if (ViewData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        <strong>Error:</strong> @ViewData["ErrorMessage"]
+                        <textarea id="query" name="query" class="form-control border-0 font-monospace p-3 bg-dark text-light"
+                                  style="min-height: 200px; resize: vertical; font-size: 0.9rem; color: #a9b7c6 !important;"
+                                  spellcheck="false"
+                                  placeholder="-- Escribe tu consulta SELECT aquí...&#10;SELECT * FROM Articulos">@(Model?.Query)</textarea>
+
+                        <div class="p-3 vc-bg-alt border-top d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="document.getElementById('query').value=''">
+                                <i class="fa-solid fa-eraser"></i> Limpiar
+                            </button>
+                            <button type="submit" class="btn-vc-create border-0">
+                                <i class="fa-solid fa-play me-2"></i> Ejecutar Consulta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-}
 
-@if (Model != null && Model.ColumnHeaders.Any())
-{
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    @foreach (var header in Model.ColumnHeaders)
-                    {
-                        <th>@header</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Rows.Any())
-                {
-                    @foreach (var row in Model.Rows)
-                    {
-                        <tr>
-                            @foreach (var cell in row)
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger shadow-sm border-0 d-flex align-items-center" role="alert">
+            <i class="fa-solid fa-circle-xmark fa-2x me-3"></i>
+            <div>
+                <strong>Error de Ejecución:</strong><br />
+                @ViewData["ErrorMessage"]
+            </div>
+        </div>
+    }
+
+    @if (Model != null)
+    {
+        <div class="d-flex align-items-center mb-3">
+            <h3 class="mb-0 me-3">Resultados</h3>
+            @if (Model.Rows.Any())
+            {
+                <span class="badge bg-success rounded-pill">@Model.Rows.Count filas encontradas</span>
+            }
+        </div>
+
+        @if (Model.ColumnHeaders.Any())
+        {
+            <div class="vc-card-panel p-0 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0 align-middle font-monospace" style="font-size: 0.9rem;">
+                        <thead class="vc-table-head">
+                            <tr>
+                                @foreach (var header in Model.ColumnHeaders)
+                                {
+                                    <th class="py-3 px-3">@header</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Rows.Any())
                             {
-                                <td>@cell</td>
+                                @foreach (var row in Model.Rows)
+                                {
+                                    <tr>
+                                        @foreach (var cell in row)
+                                        {
+                                            <td class="px-3 text-truncate" style="max-width: 300px;">@cell</td>
+                                        }
+                                    </tr>
+                                }
                             }
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="@Model.ColumnHeaders.Count" class="text-center">No se encontraron resultados.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else if (Model != null)
-{
-    <p>La consulta se ejecutó correctamente pero no arrojó resultados.</p>
-}
+                            else
+                            {
+                                <tr>
+                                    <td colspan="@Model.ColumnHeaders.Count" class="text-center py-5 vc-text-secondary">
+                                        <i class="fa-solid fa-magnifying-glass fa-2x mb-3"></i><br />
+                                        La consulta se ejecutó correctamente pero no devolvió datos.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+</div>

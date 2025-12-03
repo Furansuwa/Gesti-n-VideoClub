@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using VideoclubWebApp.Models.Articulos; // Asegúrate de tener este using
 
 namespace VideoClubWebApp.Models
 {
@@ -8,16 +9,22 @@ namespace VideoClubWebApp.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int NoRenta { get; set; } // Clave primaria y número de renta
+        public int NoRenta { get; set; }
 
         [Required]
         public int EmpleadoId { get; set; }
+        [ForeignKey("EmpleadoId")]
+        public virtual Empleado? Empleado { get; set; } // <--- Nueva conexión
 
         [Required]
         public int ClienteId { get; set; }
+        [ForeignKey("ClienteId")]
+        public virtual Cliente? Cliente { get; set; } // <--- Nueva conexión
 
         [Required]
         public int ArticuloId { get; set; }
+        [ForeignKey("ArticuloId")]
+        public virtual Articulo? Articulo { get; set; } // <--- Nueva conexión
 
         [Required]
         public DateTime FechaRenta { get; set; }

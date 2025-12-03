@@ -5,25 +5,27 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Operaciones de Renta</h1>
-    <div>
-        <a asp-action="Devolucion" class="btn btn-outline-warning me-2">
-            <i class="fa-solid fa-clock-rotate-left"></i> Devoluciones Pendientes
-        </a>
-        <a asp-action="Create" class="btn-vc-create">
-            <i class="fa-solid fa-circle-plus"></i> Nueva Renta
-        </a>
-    </div>
+    <h1 class="mb-0">Gestión de Rentas</h1>
+    <a asp-action="Create" class="btn-vc-create">
+        <i class="fa-solid fa-cart-plus me-2"></i> Nueva Renta
+    </a>
 </div>
 
-<div class="vc-card-panel p-0 overflow-hidden">
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+        <i class="fa-solid fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="vc-card-panel p-0">
     <div class="table-responsive">
         <table class="table table-hover mb-0 align-middle">
             <thead class="vc-table-head">
                 <tr>
-                    <th class="ps-4 py-3">Renta #</th>
-                    <th>Cliente</th>
-                    <th>Artículo</th>
+                    <th class="ps-4">No. Renta</th>
+                    <th>Cliente / Película</th>
                     <th>Fecha Renta</th>
                     <th>Devolución</th>
                     <th>Estado</th>
@@ -34,53 +36,68 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td class="ps-4 font-monospace fw-bold text-primary">
-                            #@item.NoRenta
+                        <td class="ps-4">
+                            <span class="badge bg-light text-dark border">#@item.NoRenta</span>
                         </td>
                         <td>
-                            <i class="fa-solid fa-user me-1 vc-text-secondary"></i> @item.ClienteId
+                            <div class="d-flex flex-column">
+                                <span class="fw-bold text-primary">
+                                    <i class="fa-solid fa-user me-1 text-muted small"></i>
+                                    @(item.Cliente?.Nombre ?? "Cliente Desconocido")
+                                </span>
+                                <span class="small text-muted">
+                                    <i class="fa-solid fa-film me-1"></i>
+                                    @(item.Articulo?.Titulo ?? "Artículo no encontrado")
+                                </span>
+                            </div>
                         </td>
                         <td>
-                            <i class="fa-solid fa-film me-1 vc-text-secondary"></i> @item.ArticuloId
+                            @item.FechaRenta.ToString("dd/MMM/yyyy")
+                            <div class="small text-muted">@item.FechaRenta.ToString("hh:mm tt")</div>
                         </td>
-                        <td>@item.FechaRenta.ToString("dd/MM/yyyy")</td>
                         <td>
                             @if (item.FechaDevolucion.HasValue)
                             {
-                                <span class="text-success">@item.FechaDevolucion.Value.ToString("dd/MM/yyyy")</span>
+                                <span class="text-success fw-bold">
+                                    <i class="fa-solid fa-check me-1"></i> @item.FechaDevolucion.Value.ToString("dd/MMM")
+                                </span>
                             }
                             else
                             {
-                                <span class="badge bg-warning text-dark">Pendiente</span>
+                                <span class="text-warning fw-bold small">
+                                    <i class="fa-regular fa-clock me-1"></i> Pendiente
+                                </span>
                             }
                         </td>
                         <td>
                             @if (item.Estado == "Activa")
                             {
-                                <span class="badge bg-primary rounded-pill">Activa</span>
+                                <span class="badge bg-primary rounded-pill px-3">En Curso</span>
                             }
                             else if (item.Estado == "Devuelta")
                             {
-                                <span class="badge bg-secondary rounded-pill">Cerrada</span>
+                                <span class="badge bg-secondary rounded-pill px-3">Finalizada</span>
                             }
                             else
                             {
-                                <span class="badge bg-danger rounded-pill">@item.Estado</span>
+                                <span class="badge bg-warning text-dark rounded-pill px-3">@item.Estado</span>
                             }
                         </td>
                         <td class="text-center">
                             <div class="vc-actions">
-                                <a asp-action="Details" asp-route-id="@item.NoRenta" class="btn-vc-icon details" title="Ver Recibo">
+                                <a asp-action="Details" asp-route-id="@item.NoRenta" class="btn-vc-icon details" title="Ver Ticket">
                                     <i class="fa-solid fa-receipt"></i>
                                 </a>
+
                                 @if (item.Estado == "Activa")
                                 {
-                                    <a asp-action="ProcesarDevolucion" asp-route-id="@item.NoRenta" class="btn-vc-icon edit text-warning border-warning" title="Procesar Devolución">
-                                        <i class="fa-solid fa-rotate-left"></i>
+                                    <a asp-action="ProcesarDevolucion" asp-route-id="@item.NoRenta" class="btn-vc-icon edit text-warning" title="Recibir Devolución">
+                                        <i class="fa-solid fa-hand-holding-dollar"></i>
                                     </a>
                                 }
-                                <a asp-action="Delete" asp-route-id="@item.NoRenta" class="btn-vc-icon delete" title="Anular">
-                                    <i class="fa-solid fa-xmark"></i>
+
+                                <a asp-action="Delete" asp-route-id="@item.NoRenta" class="btn-vc-icon delete" title="Eliminar Registro">
+                                    <i class="fa-solid fa-trash"></i>
                                 </a>
                             </div>
                         </td>
@@ -90,3 +107,12 @@
         </table>
     </div>
 </div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fa-solid fa-cart-shopping fa-3x text-muted mb-3 opacity-50"></i>
+        <h4 class="text-muted fw-light">No hay rentas registradas aún</h4>
+        <p class="text-muted">Comienza creando una nueva renta desde el botón superior.</p>
+    </div>
+}

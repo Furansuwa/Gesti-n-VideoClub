@@ -21,7 +21,13 @@ namespace VideoclubWebApp.Controllers
         // GET: Rentas
         public async Task<IActionResult> Index()
         {
-            var rentas = await _context.Rentas.ToListAsync();
+            // El .Include() es la magia que trae los nombres en lugar de solo los IDs
+            var rentas = await _context.Rentas
+                .Include(r => r.Cliente)
+                .Include(r => r.Articulo)
+                .Include(r => r.Empleado)
+                .ToListAsync();
+
             return View(rentas);
         }
 
@@ -65,31 +71,42 @@ namespace VideoclubWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Obtener el artículo para calcular el monto
+                // 1. Obtener el artículo
                 var articulo = await _context.Articulos.FindAsync(renta.ArticuloId);
 
                 if (articulo == null)
                 {
                     ModelState.AddModelError("", "Artículo no encontrado");
-                    ViewData["ClienteId"] = new SelectList(_context.Clientes.Where(c => c.Estado == "Activo"), "Id", "Nombre", renta.ClienteId);
-                    ViewData["ArticuloId"] = new SelectList(_context.Articulos.Where(a => a.Estado == "Disponible"), "Id", "Titulo", renta.ArticuloId);
-                    ViewData["EmpleadoId"] = new SelectList(_context.Empleados.Where(e => e.Estado == "Activo"), "Id", "Nombre", renta.EmpleadoId);
+                    // ... (recargar listas) ...
                     return View(renta);
                 }
 
-                // Establecer valores
-                renta.FechaRenta = DateTime.Now;
-                renta.MontoPorDia = articulo.RentaPorDia;
-                renta.Estado = "Activa";
-                renta.FechaDevolucion = null;
-
-                // Si no se especifica cantidad de días, usar los días predeterminados del artículo
+                // 2. Si el usuario puso 0 o vacío, asignar el límite por defecto
                 if (renta.CantidadDias <= 0)
                 {
                     renta.CantidadDias = articulo.DiasRenta;
                 }
 
-                // Actualizar estado del artículo
+                // === VALIDACIÓN NUEVA: CONTROL DE LÍMITE ===
+                if (renta.CantidadDias > articulo.DiasRenta)
+                {
+                    ModelState.AddModelError("CantidadDias", $"El límite de renta para esta película es de {articulo.DiasRenta} días.");
+
+                    // Recargamos las listas para que no se pierdan los datos del formulario
+                    ViewData["ClienteId"] = new SelectList(_context.Clientes.Where(c => c.Estado == "Activo"), "Id", "Nombre", renta.ClienteId);
+                    ViewData["ArticuloId"] = new SelectList(_context.Articulos.Where(a => a.Estado == "Disponible"), "Id", "Titulo", renta.ArticuloId);
+                    ViewData["EmpleadoId"] = new SelectList(_context.Empleados.Where(e => e.Estado == "Activo"), "Id", "Nombre", renta.EmpleadoId);
+                    return View(renta);
+                }
+                // ===========================================
+
+                // 3. Continuar con la creación normal...
+                renta.FechaRenta = DateTime.Now;
+                renta.MontoPorDia = articulo.RentaPorDia;
+                renta.Estado = "Activa";
+                renta.FechaDevolucion = null;
+
+                // Actualizar estado del artículo a Rentado
                 articulo.Estado = "Rentado";
                 _context.Update(articulo);
 
@@ -100,6 +117,7 @@ namespace VideoclubWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Si el modelo no es válido, recargar listas
             ViewData["ClienteId"] = new SelectList(_context.Clientes.Where(c => c.Estado == "Activo"), "Id", "Nombre", renta.ClienteId);
             ViewData["ArticuloId"] = new SelectList(_context.Articulos.Where(a => a.Estado == "Disponible"), "Id", "Titulo", renta.ArticuloId);
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados.Where(e => e.Estado == "Activo"), "Id", "Nombre", renta.EmpleadoId);

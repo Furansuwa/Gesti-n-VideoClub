@@ -1,0 +1,134 @@
+﻿@model IEnumerable<VideoClubWebApp.Models.Rentas>
+
+@{
+    ViewData["Title"] = "Búsqueda Avanzada";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Consulta de Rentas</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Volver al Historial
+    </a>
+</div>
+
+<div class="vc-card-panel mb-4">
+    <div class="card-header bg-transparent border-bottom py-3">
+        <h5 class="mb-0 text-primary"><i class="fa-solid fa-filter me-2"></i>Criterios de Búsqueda</h5>
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Busqueda" method="get">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Cliente</label>
+                    <select name="clienteId" class="form-select" asp-items="ViewBag.ClienteId">
+                        <option value="">-- Todos los Clientes --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Película / Artículo</label>
+                    <select name="articuloId" class="form-select" asp-items="ViewBag.ArticuloId">
+                        <option value="">-- Todos los Artículos --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Estado</label>
+                    <select name="estado" class="form-select" value="@ViewBag.CurrentEstado">
+                        <option value="">-- Todos --</option>
+                        <option value="Activa">Activa (Pendiente Dev.)</option>
+                        <option value="Devuelta">Devuelta / Cerrada</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Desde Fecha</label>
+                    <input type="date" name="fechaInicio" class="form-control" value="@ViewBag.FechaInicio" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hasta Fecha</label>
+                    <input type="date" name="fechaFin" class="form-control" value="@ViewBag.FechaFin" />
+                </div>
+
+                <div class="col-md-6 d-flex align-items-end">
+                    <div class="d-flex gap-2 w-100">
+                        <button type="submit" class="btn btn-primary w-50">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar
+                        </button>
+                        <a asp-action="Busqueda" class="btn btn-outline-secondary w-50">
+                            <i class="fa-solid fa-eraser me-2"></i> Limpiar
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="vc-card-panel p-0 overflow-hidden">
+        <div class="card-header bg-light py-2 px-4 border-bottom">
+            <small class="text-muted">Se encontraron <strong>@Model.Count()</strong> registros coincidente(s).</small>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="vc-table-head">
+                    <tr>
+                        <th class="ps-4">Renta #</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Artículo</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4 font-monospace fw-bold text-primary">#@item.NoRenta</td>
+                            <td>@item.FechaRenta.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <i class="fa-solid fa-user me-1 vc-text-secondary"></i> @item.Cliente?.Nombre
+                            </td>
+                            <td>
+                                <i class="fa-solid fa-film me-1 vc-text-secondary"></i> @item.Articulo?.Titulo
+                            </td>
+                            <td>
+                                @if (item.Estado == "Activa")
+                                {
+                                    <span class="badge bg-primary rounded-pill">Activa</span>
+                                }
+                                else if (item.Estado == "Devuelta")
+                                {
+                                    <span class="badge bg-secondary rounded-pill">Cerrada</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger rounded-pill">@item.Estado</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@item.NoRenta" class="btn-vc-icon details" title="Ver Detalles">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info d-flex align-items-center mt-4 shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-info fa-2x me-3"></i>
+        <div>
+            <strong>Sin resultados:</strong> No se encontraron rentas que coincidan con los criterios seleccionados. Intenta ampliar el rango de fechas o limpiar los filtros.
+        </div>
+    </div>
+}

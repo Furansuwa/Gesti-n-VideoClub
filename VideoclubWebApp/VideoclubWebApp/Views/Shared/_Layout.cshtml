@@ -55,6 +55,14 @@
                                     <li><a class="dropdown-item" asp-controller="Roles" asp-action="Index">Roles y Permisos</a></li>
                                     <li><a class="dropdown-item" asp-controller="Consulta" asp-action="Index">Consulta SQL</a></li>
                                 </ul>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Rentas</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Rentas" asp-action="Index">Historial General</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Rentas" asp-action="Create">Nueva Renta</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Rentas" asp-action="Devolucion">Devoluciones</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Rentas" asp-action="Busqueda"><i class="fa-solid fa-magnifying-glass me-2"></i>Consulta Avanzada</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Reportes" asp-action="Index">Reportes</a>

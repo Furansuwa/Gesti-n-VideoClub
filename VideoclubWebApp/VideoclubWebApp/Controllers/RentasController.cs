@@ -31,6 +31,61 @@ namespace VideoclubWebApp.Controllers
             return View(rentas);
         }
 
+        // GET: Rentas/Busqueda
+        public async Task<IActionResult> Busqueda(int? clienteId, int? articuloId, DateTime? fechaInicio, DateTime? fechaFin, string estado)
+        {
+            // 1. Iniciar la consulta base incluyendo las relaciones
+            var query = _context.Rentas
+                .Include(r => r.Cliente)
+                .Include(r => r.Articulo)
+                .Include(r => r.Empleado)
+                .AsQueryable();
+
+            // Aplicar filtros dinámicamente si los parámetros tienen valor
+            if (clienteId.HasValue)
+            {
+                query = query.Where(r => r.ClienteId == clienteId);
+            }
+
+            if (articuloId.HasValue)
+            {
+                query = query.Where(r => r.ArticuloId == articuloId);
+            }
+
+            if (fechaInicio.HasValue)
+            {
+                // Filtramos desde el inicio del día seleccionado
+                query = query.Where(r => r.FechaRenta >= fechaInicio.Value.Date);
+            }
+
+            if (fechaFin.HasValue)
+            {
+                // Filtramos hasta el final del día seleccionado (23:59:59)
+                var finDia = fechaFin.Value.Date.AddDays(1).AddTicks(-1);
+                query = query.Where(r => r.FechaRenta <= finDia);
+            }
+
+            if (!string.IsNullOrEmpty(estado) && estado != "Todos")
+            {
+                query = query.Where(r => r.Estado == estado);
+            }
+
+            // Cargar las listas para los dropdowns de la vista
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", clienteId);
+            ViewData["ArticuloId"] = new SelectList(_context.Articulos, "Id", "Titulo", articuloId);
+
+            // Guardamos los parametros en ViewBag para mantenerlos
+            // en los inputs despues de buscar.
+            ViewBag.FechaInicio = fechaInicio?.ToString("yyyy-MM-dd");
+            ViewBag.FechaFin = fechaFin?.ToString("yyyy-MM-dd");
+            ViewBag.CurrentEstado = estado;
+
+            // Ejecutar consulta y ordenar por mas reciente primero
+            var resultados = await query.OrderByDescending(r => r.FechaRenta).ToListAsync();
+
+            return View(resultados);
+        }
+
         // GET: Rentas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -164,7 +219,7 @@ namespace VideoclubWebApp.Controllers
             // Calcular montos
             var montoBase = renta.MontoPorDia * renta.CantidadDias;
             var articulo = await _context.Articulos.FindAsync(renta.ArticuloId);
-            var montoRetraso = diasRetraso > 0 ? diasRetraso * articulo.MontoEntregaTardia : 0;
+            var montoRetraso = diasRetraso > 0 ? diasRetraso * articulo?.MontoEntregaTardia : 0;
             var montoTotal = montoBase + montoRetraso;
 
             ViewBag.MontoBase = montoBase;
